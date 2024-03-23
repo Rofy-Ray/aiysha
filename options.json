@@ -1,0 +1,167 @@
+{
+  "color try-on": {
+    "nutrisse": {
+      "fire brick": "#B22222",
+      "dark orange": "#FF8C00",
+      "gold": "#FFD700"
+    },
+    "revlon": {
+      "indian red": "#CD5C5C",
+      "chocolate": "#D2691E",
+      "yellow": "#FFFF00"
+    },
+    "esalon": {
+      "rosy brown": "#BC8F8F",
+      "sandy brown": "#F4A460",
+      "khaki": "#F0E68C"
+    },
+    "zotos": {
+      "dark olive green": "#556B2F",
+      "yellow green": "#9ACD32",
+      "dark sea green": "#8FBC8F"
+    },
+    "phyto": {
+      "light green": "#90EE90",
+      "medium spring green": "#00FA9A",
+      "aquamarine": "#7FFFD4"
+    },
+    "clairol": {
+      "turquoise": "#40E0D0",
+      "light sea green": "#20B2AA",
+      "medium turquoise": "#48D1CC"
+    },
+    "lime crime": {
+      "powder blue": "#B0E0E6",
+      "sky blue": "#87CEEB",
+      "deep sky blue": "#00BFFF"
+    },
+    "garnier olia": {
+      "dodger blue": "#1E90FF",
+      "steel blue": "#4682B4",
+      "alice blue": "#F0F8FF"
+    },
+    "moroccanoil": {
+      "light slate gray": "#778899",
+      "slate gray": "#708090",
+      "royal blue": "#4169E1"
+    },
+    "madison reed": {
+      "blue": "#0000FF",
+      "medium slate blue": "#7B68EE",
+      "slate blue": "#6A5ACD"
+    }
+  },
+  "lip stick try-on": {
+    "fenty beauty": {
+      "medium violet red": "#C71585",
+      "deep pink": "#FF1493",
+      "hot pink": "#FF69B4"
+    },
+    "dior": {
+      "light pink": "#FFB6C1",
+      "pink": "#FFC0CB",
+      "pale violet red": "#DB7093"
+    },
+    "anastasia beverly hills": {
+      "maroon": "#800000",
+      "medium violet red": "#C71585",
+      "deep pink": "#FF1493"
+    },
+    "bare minerals": {
+      "hot pink": "#FF69B4",
+      "light pink": "#FFB6C1",
+      "pink": "#FFC0CB"
+    },
+    "charlotte tilbury": {
+      "pale violet red": "#DB7093",
+      "lavender blush": "#FFF0F5",
+      "misty rose": "#FFE4E1"
+    },
+    "clinique": {
+      "linen": "#FAF0E6",
+      "sea shell": "#FFF5EE",
+      "snow": "#FFFAFA"
+    },
+    "glossier": {
+      "rosy brown": "#BC8F8F",
+      "light coral": "#F08080",
+      "indian red": "#CD5C5C"
+    },
+    "haus labs": {
+      "fire brick": "#B22222",
+      "brown": "#A52A2A",
+      "maroon": "#800000"
+    },
+    "huda beauty": {
+      "dark red": "#8B0000",
+      "red": "#FF0000",
+      "misty rose": "#FFE4E1"
+    },
+    "ilia": {
+      "salmon": "#FA8072",
+      "tomato": "#FF6347",
+      "dark salmon": "#E9967A"
+    }
+  },
+  "lip liner try-on": {
+    "chanel": {
+      "coral": "#FF7F50",
+      "orange red": "#FF4500",
+      "sienna": "#A0522D"
+    },
+    "pat mcgrath labs": {
+      "saddle brown": "#8B4513",
+      "chocolate": "#D2691E",
+      "peru": "#CD853F"
+    },
+    "one size": {
+      "sandy brown": "#F4A460",
+      "peach puff": "#FFDAB9",
+      "navajo white": "#FFDEAD"
+    },
+    "tower 28": {
+      "blanched almond": "#FFEBCD",
+      "bisque": "#FFE4C4",
+      "moccasin": "#FFE4B5"
+    },
+    "merle norman cosmetics": {
+      "corn silk": "#FFF8DC",
+      "lemon chiffon": "#FFFACD",
+      "pale golden rod": "#EEE8AA"
+    },
+    "makeup by mario": {
+      "khaki": "#F0E68C",
+      "dark khaki": "#BDB76B",
+      "olive": "#808000"
+    },
+    "tarte": {
+      "yellow": "#FFFF00",
+      "olive drab": "#6B8E23",
+      "yellow green": "#9ACD32"
+    },
+    "nyx professional makeup": {
+      "dark olive green": "#556B2F",
+      "green yellow": "#ADFF2F",
+      "chartreuse": "#7FFF00"
+    },
+    "victoria beckham beauty": {
+      "lawn green": "#7CFC00",
+      "green": "#008000",
+      "dark green": "#006400"
+    },
+    "urban decay": {
+      "forest green": "#228B22",
+      "lime": "#00FF00",
+      "lime green": "#32CD32"
+    }
+  },
+  "style try-on": {
+    "hair out": "1",
+    "afro": "3",
+    "box braids": "4",
+    "twist curls": "5",
+    "bantu knots": "11",
+    "high top fade": "16",
+    "weave cap": "20"
+  }
+}
