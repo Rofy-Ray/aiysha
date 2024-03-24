@@ -281,7 +281,7 @@ def remove_emoji_and_strip(input_string):
 def download_media(media_id, number_id, retries=3):
     whatsapp_token = os.getenv("WHATSAPP_TOKEN")
     whatsapp_media_url = os.getenv("WHATSAPP_MEDIA_URL")
-    media_url = "{}/{media_id}?phone_number_id={}".format(
+    media_url = "{}/{}?phone_number_id={}".format(
         whatsapp_media_url, media_id, number_id
     )
     headers = {"Authorization": "Bearer " + whatsapp_token}
