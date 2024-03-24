@@ -265,7 +265,7 @@ def pause_text(number):
 
 def follow_up(number, messageId):
     body = "You were absolutely dazzling! But the show must go on, right? What’s the next act in your personal style saga that I can assist with? 🌟🎭✨"
-    footer = "roboMUA Team"
+    footer = "AIySha by roboMUA"
     options = ["✅ Yes, please.", "❌ No, thanks."]
 
     reply_button_data = button_reply_message(
@@ -505,7 +505,7 @@ def fetch_product_recs(
         company_products, company_names = fetch_prod_recs(edge_url, media_content)
 
         body = "I have a lot of recommendations for you. Please choose one of the following companies to see their products that match your skin shade."
-        footer = "roboMUA Team"
+        footer = "AIySha by roboMUA"
         options = [name.title() for name in company_names]
 
         list_reply_data = list_reply_message(
@@ -564,7 +564,7 @@ def create_pdf(products):
 
 def handle_greetings(text, number, messageId, response_list):
     body = "Greetings, gorgeous!👋🏿 I'm AIySha, your roboMUA BFF. I'm here to make you look and feel fabulous. What can I do for you today?"
-    footer = "roboMUA Team"
+    footer = "AIySha by roboMUA"
     options = ["💄 Product Recs", "🪞 Try-On"]
 
     reply_button_data = button_reply_message(
@@ -590,7 +590,7 @@ def handle_else_condition(text, number, messageId, response_list):
 
 def handle_product_recs(text, number, messageId, response_list):
     body = "Oh, I see you're feeling adventurous today. Ready to unleash your inner artist and transform your face into a masterpiece? Don't worry, I'll guide you through the process. What kind of look are you going for?"
-    footer = "roboMUA Team"
+    footer = "AIySha by roboMUA"
     options = ["😀 Face", "👀 Eyes", "☺️ Cheeks", "👤 Body"]
 
     list_reply_data = list_reply_message(
@@ -604,7 +604,7 @@ def handle_product_recs(text, number, messageId, response_list):
 
 def handle_face(text, number, messageId, response_list):
     body = "You know what they say, beauty is skin deep. But that doesn't mean you can't enhance it with some awesome products. Let me help you find the ones that suit your complexion. Which part of your face do you want to focus on first?"
-    footer = "roboMUA Team"
+    footer = "AIySha by roboMUA"
     options = ["🎨 Foundation", "🙈 Concealer", "💎 Setting Powder"]  # "🌟 Skin Tint",
 
     list_reply_data = list_reply_message(
@@ -617,7 +617,7 @@ def handle_face(text, number, messageId, response_list):
 
 def handle_cheeks(text, number, messageId, response_list):
     body = "I see you're in the mood for some glam. Don't worry, I've got you covered. Whether you want to go for a natural look or a full-on diva, I'm here to help. So, what's the plan, Stan?"
-    footer = "roboMUA Team"
+    footer = "AIySha by roboMUA"
     options = ["😊 Contour", "🥉 Bronzer"]
 
     reply_button_data = button_reply_message(
@@ -630,7 +630,7 @@ def handle_cheeks(text, number, messageId, response_list):
 
 def handle_body(text, number, messageId, response_list):
     body = "Well, well, well, if it isn't the beauty queen herself. Ready to dazzle the world with your fabulous face? Tell me, what kind of magic are we working with today?"
-    footer = "roboMUA Team"
+    footer = "AIySha by roboMUA"
     options = ["🧴 Scents", "🩱 Shapewear", "🥿 Nude Shoes"]
 
     reply_button_data = button_reply_message(
@@ -652,7 +652,7 @@ def handle_recs_selfie(text, number, messageId, response_list):
 
 def handle_vto(text, number, messageId, response_list):
     body = "Awesome! Let's give you a new look with some digital magic. What kind of vibe are you going for?"
-    footer = "roboMUA Team"
+    footer = "AIySha by roboMUA"
     options = ["🪮 Hair", "👄 Lips"]
 
     reply_button_data = button_reply_message(
@@ -665,7 +665,7 @@ def handle_vto(text, number, messageId, response_list):
 
 def handle_hair(text, number, messageId, response_list):
     body = "Cool! Let's spice up your look with some hair color or style changes. What are you in the mood for?"
-    footer = "roboMUA Team"
+    footer = "AIySha by roboMUA"
     options = ["💈 Color Try-On"]  # , "🎀 Style Try-On"
 
     reply_button_data = button_reply_message(
@@ -678,7 +678,7 @@ def handle_hair(text, number, messageId, response_list):
 
 def handle_lips(text, number, messageId, response_list):
     body = "O-kay! Looks like we’re mixing up our beauty stations. For lips that pop, are we thinking bold and daring with a fiery red, or classic chic with a nude shade? And don’t forget the lipliner – it’s the secret agent that keeps your lipstick from going rogue. 💄🕵️‍♀️✨"
-    footer = "roboMUA Team"
+    footer = "AIySha by roboMUA"
     options = ["💋 Lip Stick Try-On", "🫦 Lip Liner Try-On"]
 
     reply_button_data = button_reply_message(
@@ -747,7 +747,7 @@ def handle_digit_text(text, number, messageId, numberId, response_list):
 
 def handle_yes_please(text, number, messageId, response_list):
     body = "You’re on a roll! It’s like we’ve got a magic wand for fun – just wave it and poof! What’s the next adventure you’d like to conjure up? 🪄✨"
-    footer = "roboMUA Team"
+    footer = "AIySha by roboMUA"
     options = ["💄 Product Recs", "🪞 Try-On"]
 
     reply_button_data = button_reply_message(
@@ -814,7 +814,7 @@ def handle_style_try_on(text, number, messageId, response_list):
     last_hair_type.setdefault(number, []).append(text)
 
     body = "Whoops, let’s steer our style compass towards the hair salon! Are we thinking a daring pixie cut, or perhaps flowing mermaid waves? Maybe even a color that screams ‘rockstar’? Let’s create a ‘hair-raising’ experience! 💇‍♀️🎨🤘"
-    footer = "roboMUA Team"
+    footer = "AIySha by roboMUA"
     options = [name.title() for name in feats[text].keys()]
 
     list_reply_data = list_reply_message(
@@ -838,7 +838,7 @@ def handle_plus_color_options(text, number, messageId, response_list):
     last_vto_type.setdefault(number, []).append(text)
 
     body = "Got it! It’s like we’re in a candy store of brands, and you’re about to pick the sweetest treat. So, which one makes you feel like a kid in a fashion wonderland? 🍭👗✨"
-    footer = "roboMUA Team"
+    footer = "AIySha by roboMUA"
     options = [name.title() for name in feats[text].keys()]
 
     list_reply_data = list_reply_message(
@@ -853,7 +853,7 @@ def handle_vto_options(text, number, messageId, response_list):
     last_vto_type[number].append(text)
 
     body = "Brilliant pick! It’s like choosing a superhero costume – so, which shade of awesome are we going for today? 🦸‍♂️🌈"
-    footer = "roboMUA Team"
+    footer = "AIySha by roboMUA"
     options = [key.title() for key in feats[last_vto_type[number][0]][text].keys()]
 
     list_reply_data = list_reply_message(
