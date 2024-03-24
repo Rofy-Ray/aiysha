@@ -9,7 +9,7 @@ import threading
 
 load_dotenv()
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 app_token = os.getenv("APP_TOKEN")
 
@@ -83,4 +83,4 @@ if __name__ == "__main__":
     if os.getenv("FLASK_ENV") == "development":
         app.run(debug=True)
     else:
-        serve(app, threads=100)
+        serve(app)
