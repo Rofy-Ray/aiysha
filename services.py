@@ -531,11 +531,11 @@ def create_pdf(products):
     for product in products:
         text = textwrap.dedent(
             """
-    🤎 *Foundation*: ```{foundation}```
-    💰 *Price*: `{price}`
-    🛍️ *Buy*: ```{product_url}```
-    🎬 *Tutorial*: ```{video_tutorial}```
-    """.format(
+            🤎 *Foundation*: ```{foundation}```
+            💰 *Price*: `{price}`
+            🛍️ *Buy*: ```{product_url}```
+            🎬 *Tutorial*: ```{video_tutorial}```
+            """.format(
                 foundation=product["Foundation"],
                 price=product["Price"],
                 product_url=product["ProductURL"],
@@ -784,18 +784,23 @@ def handle_company_names(text, number, messageId, name, response_list):
             number,
             doc_file,
             "Your Recommendations",
-            "{}'s Recommendations.pdf".format(name)
+            "{}'s Recommendations.pdf".format(name),
         )
         response_list.append(send_doc)
     else:
         for product in products:
-            message = textwrap.dedent(
-                f"""
-            🤎 *Foundation*: ```{product['Foundation']}```
-            💰 *Price*: `{product['Price']}`
-            🛍️ *Buy*: ```{product['ProductURL']}```
-            🎬 *Tutorial*: ```{product['VideoTutorial']}```
-            """
+            messageId = textwrap.dedent(
+                """
+                🤎 *Foundation*: ```{foundation}```
+                💰 *Price*: `{price}`
+                🛍️ *Buy*: ```{product_url}```
+                🎬 *Tutorial*: ```{video_tutorial}```
+                """.format(
+                    foundation=product["Foundation"],
+                    price=product["Price"],
+                    product_url=product["ProductURL"],
+                    video_tutorial=product["VideoTutorial"],
+                )
             )
             send_text = text_message(number, message)
             response_list.append(send_text)
