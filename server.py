@@ -19,6 +19,12 @@ if app_token is None:
 
 app = Flask(__name__)
 
+app.config["DEBUG"] = os.getenv("FLASK_DEBUG")
+
+
+@app.route("/")
+def index():
+    return "AIySha from roboMUA!"
 
 @app.route("/welcome", methods=["GET"])
 def welcome():
@@ -81,6 +87,6 @@ def receive_messages():
 
 if __name__ == "__main__":
     if os.getenv("FLASK_ENV") == "development":
-        app.run(debug=True)
+        app.run()
     else:
         serve(app)
