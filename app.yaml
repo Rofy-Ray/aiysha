@@ -1,6 +1,10 @@
-runtime: python311
+runtime: python
 entrypoint: waitress-serve --port=$PORT server:app
 instance_class: F2
+
+runtime_config:
+  python_version: 3
+
 automatic_scaling:
   target_cpu_utilization: 0.65
   min_instances: 1
