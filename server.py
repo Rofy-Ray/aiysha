@@ -5,6 +5,7 @@ import os
 import logging
 from dotenv import load_dotenv
 import Queue as queue
+# import queue
 import threading
 
 load_dotenv()
@@ -76,7 +77,10 @@ def process_requests():
         request_queue.task_done()
 
 
-threading.Thread(target=process_requests, daemon=True).start()
+# threading.Thread(target=process_requests, daemon=True).start()
+thread = threading.Thread(target=process_requests)
+thread.daemon = True
+thread.start()
 
 
 @app.route("/webhook", methods=["POST"])
