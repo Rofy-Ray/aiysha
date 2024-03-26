@@ -4,7 +4,7 @@ import services
 import os
 import logging
 from dotenv import load_dotenv
-import queue
+import Queue as queue
 import threading
 
 load_dotenv()
