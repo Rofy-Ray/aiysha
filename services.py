@@ -15,6 +15,7 @@ from reportlab.pdfgen import canvas
 import configparser
 from dotenv import load_dotenv
 from data import greetings, all_image_options, plus_color_options
+import six
 
 load_dotenv()
 
@@ -887,6 +888,7 @@ recs_data = {"company_names": [], "company_products": {}}
 
 def manage_chatbot(text, number, messageId, name, numberId):
     text = text.lower()
+    text = six.ensure_text(text)
     stripped_text = remove_emoji_and_strip(text)
     response_list = []
     downloaded_temp_file = None
