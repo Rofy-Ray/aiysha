@@ -1,4 +1,4 @@
-runtime: python
+runtime: python39
 env: flex
 entrypoint: waitress-serve --port=$PORT server:app
 instance_class: F2
