@@ -5,8 +5,7 @@ import services
 import os
 import logging
 from dotenv import load_dotenv
-import Queue as queue
-# import queue
+import queue
 import threading
 
 load_dotenv()
@@ -27,6 +26,7 @@ app.config["DEBUG"] = os.getenv("FLASK_DEBUG")
 @app.route("/")
 def index():
     return "AIySha from roboMUA!"
+
 
 @app.route("/welcome", methods=["GET"])
 def welcome():
@@ -78,10 +78,7 @@ def process_requests():
         request_queue.task_done()
 
 
-# threading.Thread(target=process_requests, daemon=True).start()
-thread = threading.Thread(target=process_requests)
-thread.daemon = True
-thread.start()
+threading.Thread(target=process_requests, daemon=True).start()
 
 
 @app.route("/webhook", methods=["POST"])

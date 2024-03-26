@@ -4,5 +4,3 @@ python-dotenv
 pillow
 waitress
 reportlab
-configparser
-six
