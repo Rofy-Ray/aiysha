@@ -5,3 +5,4 @@ pillow
 waitress
 reportlab
 configparser
+six
