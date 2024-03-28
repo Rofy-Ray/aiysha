@@ -66,11 +66,13 @@ def process_requests():
             elif "messages" in value and "contacts" in value:
                 numberId = value["metadata"]["phone_number_id"]
                 message = value["messages"][0]
-                print("message >>> ", message)
                 number = message["from"]
                 messageId = message["id"]
                 contacts = value["contacts"][0]
                 name = contacts["profile"]["name"]
+                
+                print("message >>> ", message)
+                
                 text = services.get_whatsapp_message(message)
 
                 services.manage_chatbot(text, number, messageId, name, numberId)
