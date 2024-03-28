@@ -80,7 +80,6 @@ def send_whatsapp_message(data):
             "Authorization": "Bearer " + whatsapp_token,
         }
         response = requests.post(whatsapp_url, headers=headers, data=data)
-        # print("RESPONSE SENT >>> ", response.json())
         response.raise_for_status()
         time.sleep(5)
         return "message sent!", 200
@@ -791,7 +790,7 @@ def handle_company_names(text, number, messageId, name, response_list):
         response_list.append(send_doc)
     else:
         for product in products:
-            messageId = textwrap.dedent(
+            message = textwrap.dedent(
                 """
                 🤎 *Foundation*: ```{foundation}```
                 💰 *Price*: `{price}`

@@ -54,7 +54,6 @@ request_queue = queue.Queue()
 def process_requests():
     while True:
         body = request_queue.get()
-        # print("REQUEST BODY >>> ", body)
 
         try:
             entry = body["entry"][0]
@@ -70,13 +69,9 @@ def process_requests():
                 messageId = message["id"]
                 contacts = value["contacts"][0]
                 name = contacts["profile"]["name"]
-                
-                print("MESSAGE >>> ", message)
-                
+                                
                 text = services.get_whatsapp_message(message)
                 
-                print("PROCESSED MESSAGE >>> ", text)
-
                 services.manage_chatbot(text, number, messageId, name, numberId)
         except Exception as e:
             logging.error("Error processing message: {}".format(e))
