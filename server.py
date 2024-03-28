@@ -54,6 +54,7 @@ request_queue = queue.Queue()
 def process_requests():
     while True:
         body = request_queue.get()
+        logging.info("REQUEST BODY >>> ", body)
 
         try:
             entry = body["entry"][0]
