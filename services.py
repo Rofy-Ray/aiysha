@@ -18,7 +18,7 @@ from data import greetings, all_image_options, plus_color_options
 
 load_dotenv()
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 with open("options.json") as f:
     feats = json.load(f)
@@ -530,21 +530,21 @@ def create_pdf(products):
     y = 750
 
     for product in products:
-        text = textwrap.dedent(
-            """
-            🤎 *Foundation*: ```{foundation}```
-            💰 *Price*: `{price}`
-            🛍️ *Buy*: ```{product_url}```
-            🎬 *Tutorial*: ```{video_tutorial}```
-            """.format(
-                foundation=product["Foundation"],
-                price=product["Price"],
-                product_url=product["ProductURL"],
-                video_tutorial=product["VideoTutorial"],
-            )
-        )
+        keys_labels = {
+                "Foundation": "Foundation",
+                "Shade": "Shade",
+                "Concealer": "Concealer",
+                "Shoe": "Shoe"
+            }
+        message = ""
+        
+        for key, label in keys_labels.items():
+            if key in product:
+                message = f"🤎 *{label}*: ```{product[key]}```\n" + message
+        
+        message += f"💰 *Price*: `{product['Price']}`\n🛍️ *Buy*: ```{product['ProductURL']}```\n🎬 *Tutorial*: ```{product['VideoTutorial']}```\n"
 
-        c.drawString(x, y, text)
+        c.drawString(x, y, message)
 
         y -= 100
 
@@ -790,19 +790,20 @@ def handle_company_names(text, number, messageId, name, response_list):
         response_list.append(send_doc)
     else:
         for product in products:
-            message = textwrap.dedent(
-                """
-                🤎 *Foundation*: ```{foundation}```
-                💰 *Price*: `{price}`
-                🛍️ *Buy*: ```{product_url}```
-                🎬 *Tutorial*: ```{video_tutorial}```
-                """.format(
-                    foundation=product["Foundation"],
-                    price=product["Price"],
-                    product_url=product["ProductURL"],
-                    video_tutorial=product["VideoTutorial"],
-                )
-            )
+            keys_labels = {
+                "Foundation": "Foundation",
+                "Shade": "Shade",
+                "Concealer": "Concealer",
+                "Shoe": "Shoe"
+            }
+            message = ""
+            
+            for key, label in keys_labels.items():
+                if key in product:
+                    message = f"🤎 *{label}*: ```{product[key]}```\n" + message
+            
+            message += f"💰 *Price*: `{product['Price']}`\n🛍️ *Buy*: ```{product['ProductURL']}```\n🎬 *Tutorial*: ```{product['VideoTutorial']}```\n"
+            
             send_text = text_message(number, message)
             response_list.append(send_text)
 
