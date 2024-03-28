@@ -54,7 +54,7 @@ request_queue = queue.Queue()
 def process_requests():
     while True:
         body = request_queue.get()
-        print("REQUEST BODY >>> ", body)
+        # print("REQUEST BODY >>> ", body)
 
         try:
             entry = body["entry"][0]
@@ -66,6 +66,7 @@ def process_requests():
             elif "messages" in value and "contacts" in value:
                 numberId = value["metadata"]["phone_number_id"]
                 message = value["messages"][0]
+                print("message >>> ", message)
                 number = message["from"]
                 messageId = message["id"]
                 contacts = value["contacts"][0]
