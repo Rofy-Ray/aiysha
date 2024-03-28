@@ -71,9 +71,11 @@ def process_requests():
                 contacts = value["contacts"][0]
                 name = contacts["profile"]["name"]
                 
-                print("message >>> ", message)
+                print("MESSAGE >>> ", message)
                 
                 text = services.get_whatsapp_message(message)
+                
+                print("PROCESSED MESSAGE >>> ", text)
 
                 services.manage_chatbot(text, number, messageId, name, numberId)
         except Exception as e:
