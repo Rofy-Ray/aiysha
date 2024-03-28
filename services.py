@@ -18,7 +18,7 @@ from data import greetings, all_image_options, plus_color_options
 
 load_dotenv()
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 with open("options.json") as f:
     feats = json.load(f)

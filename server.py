@@ -10,7 +10,7 @@ import threading
 
 load_dotenv()
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 app_token = os.getenv("APP_TOKEN")
 
