@@ -1,4 +1,4 @@
-runtime: python37
+runtime: python312
 runtime_config:
   python_version: 3
 entrypoint: waitress-serve server:app
