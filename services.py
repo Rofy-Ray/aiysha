@@ -7,6 +7,7 @@ import logging
 import base64
 import collections
 import textwrap
+from typing import Tuple, List, Dict
 from PIL import Image
 from io import BytesIO
 from tempfile import NamedTemporaryFile
@@ -39,71 +40,141 @@ shape_wear_recs_edge = config["url"]["shape_wear_recs_edge"]
 nude_shoes_recs_edge = config["url"]["nude_shoes_recs_edge"]
 
 
-def get_whatsapp_message(message):
+def get_whatsapp_message(message: Dict) -> str:
+    """
+    This function processes a WhatsApp message and extracts the text based on the type of the message.
+
+    Parameters:
+    message (dict): A dictionary containing the WhatsApp message data. The 'type' key in the dictionary 
+                    indicates the type of the message.
+
+    Returns:
+    str: The extracted text from the WhatsApp message. If the message type is not recognized or processed, 
+         it returns a default text.
+    """
+    # Check if the 'type' key is in the message
     if "type" not in message:
         text = "message not recognized."
         return text
 
+    # Extract the message type
     typeMessage = message["type"]
+
+    # Process the message based on its type
     if typeMessage == "text":
+        # For 'text' type, the text is in the 'body' key of the 'text' dictionary
         text = message["text"]["body"]
     elif typeMessage == "image":
+        # For 'image' type, the text is the 'id' of the image
         text = message["image"]["id"]
     elif typeMessage == "button":
+        # For 'button' type, the text is the 'text' of the button
         text = message["button"]["text"]
-    elif (
-        typeMessage == "interactive" and message["interactive"]["type"] == "list_reply"
-    ):
+    elif typeMessage == "interactive" and message["interactive"]["type"] == "list_reply":
+        # For 'interactive' type with a 'list_reply', the text is the 'title' of the 'list_reply'
         text = message["interactive"]["list_reply"]["title"]
-    elif (
-        typeMessage == "interactive"
-        and message["interactive"]["type"] == "button_reply"
-    ):
+    elif typeMessage == "interactive" and message["interactive"]["type"] == "button_reply":
+        # For 'interactive' type with a 'button_reply', the text is the 'title' of the 'button_reply'
         text = message["interactive"]["button_reply"]["title"]
     else:
+        # If the message type is not recognized or processed, return a default text
         text = "message not processed."
 
     return text
 
 
-def send_whatsapp_message(data):
+def send_whatsapp_message(data: str) -> Tuple[str, int]:
+    """
+    This function sends a WhatsApp message using the provided data.
+
+    Parameters:
+    data (str): A string containing the WhatsApp message data.
+
+    Returns:
+    Tuple[str, int]: A tuple containing a message about the status of the operation and an HTTP status code.
+    """
     try:
+        # Get the WhatsApp token and environment variables
         whatsapp_token = os.getenv("WHATSAPP_TOKEN")
         flask_env = os.getenv("FLASK_ENV")
+
+        # Determine the WhatsApp URL based on the environment
         whatsapp_url = (
             os.getenv("WHATSAPP_URL_DEV")
             if flask_env == "development"
             else os.getenv("WHATSAPP_URL_PROD")
         )
+
+        # Define the headers for the request
         headers = {
             "Content-Type": "application/json",
             "Authorization": "Bearer " + whatsapp_token,
         }
+
+        # Send the POST request to the WhatsApp URL
         response = requests.post(whatsapp_url, headers=headers, data=data)
+
+        # If the request was unsuccessful, raise an exception
         response.raise_for_status()
+
+        # Wait for 5 seconds to ensure the message is sent
         time.sleep(5)
+
+        # Return a success message and status code
         return "message sent!", 200
     except requests.HTTPError as http_err:
-        return "HTTP error occurred: {}".format(http_err), response.status_code
+        # If an HTTP error occurred, return an error message and the status code
+        return f"HTTP error occurred: {http_err}", response.status_code
     except Exception as err:
-        return "Other error occurred: {}".format(err), 403
+        # If any other error occurred, return an error message and a 403 status code
+        return f"Other error occurred: {err}", 403
 
 
-def text_message(number, text):
-    data = json.dumps(
-        {
-            "messaging_product": "whatsapp",
-            "recipient_type": "individual",
-            "to": number,
-            "type": "text",
-            "text": {"body": text},
-        }
-    )
+def text_message(number: str, text: str) -> str:
+    """
+    This function creates a JSON string for a WhatsApp text message.
+
+    Parameters:
+    number (str): The phone number of the recipient.
+    text (str): The text of the message.
+
+    Returns:
+    str: A JSON string representing the WhatsApp text message.
+    """
+    # Create a dictionary with the WhatsApp message data
+    data_dict = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": number,
+        "type": "text",
+        "text": {"body": text},
+    }
+
+    # Convert the dictionary to a JSON string
+    data = json.dumps(data_dict)
+
     return data
 
 
-def button_reply_message(number, options, body, footer, scenario, messageId):
+def button_reply_message(number: str, options: List[str], body: str, footer: str, scenario: str, messageId: str) -> str:
+    """
+    This function creates a JSON string for a WhatsApp button reply message.
+
+    Parameters:
+    number (str): The phone number of the recipient.
+    options (List[str]): A list of options for the button reply.
+    body (str): The body text of the message.
+    footer (str): The footer text of the message.
+    scenario (str): The scenario for the button reply.
+    messageId (str): The message ID.
+
+    Returns:
+    str: A JSON string representing the WhatsApp button reply message.
+    """
+    # Initialize an empty list for the buttons
     buttons = []
+
+    # Create a button for each option
     for i, option in enumerate(options):
         buttons.append(
             {
@@ -112,73 +183,124 @@ def button_reply_message(number, options, body, footer, scenario, messageId):
             }
         )
 
-    data = json.dumps(
-        {
-            "messaging_product": "whatsapp",
-            "recipient_type": "individual",
-            "to": number,
-            "type": "interactive",
-            "interactive": {
-                "type": "button",
-                "body": {"text": body},
-                "footer": {"text": footer},
-                "action": {"buttons": buttons},
-            },
-        }
-    )
+    # Create a dictionary with the WhatsApp message data
+    data_dict = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": number,
+        "type": "interactive",
+        "interactive": {
+            "type": "button",
+            "body": {"text": body},
+            "footer": {"text": footer},
+            "action": {"buttons": buttons},
+        },
+    }
+
+    # Convert the dictionary to a JSON string
+    data = json.dumps(data_dict)
+
     return data
 
 
-def list_reply_message(number, options, body, footer, scenario, messageId):
+def list_reply_message(number: str, options: List[str], body: str, footer: str, scenario: str, messageId: str) -> str:
+    """
+    This function creates a JSON string for a WhatsApp list reply message.
+
+    Parameters:
+    number (str): The phone number of the recipient.
+    options (List[str]): A list of options for the list reply.
+    body (str): The body text of the message.
+    footer (str): The footer text of the message.
+    scenario (str): The scenario for the list reply.
+    messageId (str): The message ID.
+
+    Returns:
+    str: A JSON string representing the WhatsApp list reply message.
+    """
+    # Initialize an empty list for the rows
     rows = []
+
+    # Create a row for each option
     for i, option in enumerate(options):
         rows.append(
             {"id": scenario + "_row_" + str(i + 1), "title": option, "description": ""}
         )
 
-    data = json.dumps(
-        {
-            "messaging_product": "whatsapp",
-            "recipient_type": "individual",
-            "to": number,
-            "type": "interactive",
-            "interactive": {
-                "type": "list",
-                "body": {"text": body},
-                "footer": {"text": footer},
-                "action": {
-                    "button": "See Options",
-                    "sections": [{"title": "Sections", "rows": rows}],
-                },
+    # Create a dictionary with the WhatsApp message data
+    data_dict = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": number,
+        "type": "interactive",
+        "interactive": {
+            "type": "list",
+            "body": {"text": body},
+            "footer": {"text": footer},
+            "action": {
+                "button": "See Options",
+                "sections": [{"title": "Sections", "rows": rows}],
             },
-        }
-    )
+        },
+    }
+
+    # Convert the dictionary to a JSON string
+    data = json.dumps(data_dict)
+
     return data
 
 
-def document_message(number, docId, caption, filename):
-    data = json.dumps(
-        {
-            "messaging_product": "whatsapp",
-            "recipient_type": "individual",
-            "to": number,
-            "type": "document",
-            "document": {"id": docId, "caption": caption, "filename": filename},
-        }
-    )
+def document_message(number: str, docId: str, caption: str, filename: str) -> str:
+    """
+    This function creates a JSON string for a WhatsApp document message.
+
+    Parameters:
+    number (str): The phone number of the recipient.
+    docId (str): The ID of the document.
+    caption (str): The caption of the document.
+    filename (str): The filename of the document.
+
+    Returns:
+    str: A JSON string representing the WhatsApp document message.
+    """
+    # Create a dictionary with the WhatsApp message data
+    data_dict = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": number,
+        "type": "document",
+        "document": {"id": docId, "caption": caption, "filename": filename},
+    }
+
+    # Convert the dictionary to a JSON string
+    data = json.dumps(data_dict)
+
     return data
 
 
-def image_message(number, image_id):
-    data = json.dumps(
-        {
-            "messaging_product": "whatsapp",
-            "recipient_type": "individual",
-            "to": number,
-            "type": "image",
-            "image": {"id": image_id},
-        }
-    )
+def image_message(number: str, image_id: str) -> str:
+    """
+    This function creates a JSON string for a WhatsApp image message.
+
+    Parameters:
+    number (str): The phone number of the recipient.
+    image_id (str): The ID of the image.
+
+    Returns:
+    str: A JSON string representing the WhatsApp image message.
+    """
+    # Create a dictionary with the WhatsApp message data
+    data_dict = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": number,
+        "type": "image",
+        "image": {"id": image_id},
+    }
+
+    # Convert the dictionary to a JSON string
+    data = json.dumps(data_dict)
+
     return data
 
 
@@ -928,11 +1050,11 @@ def manage_chatbot(text, number, messageId, name, numberId):
         "color try-on": handle_plus_color_options,
         "lip stick try-on": handle_plus_color_options,
         "lip liner try-on": handle_plus_color_options,
-        "hairstyle selfie": handle_style_selfie,
         "digit text": handle_digit_text,
         "company names": handle_company_names,
         "vto options": handle_vto_options,
         "vto selfie": handle_vto_selfie,
+        "hairstyle selfie": handle_style_selfie,
         # "recs selfie": handle_recs_selfie,
         # "plus color options": handle_plus_color_options,
         "else": handle_else_condition,
@@ -944,11 +1066,6 @@ def manage_chatbot(text, number, messageId, name, numberId):
 
         elif keyword == stripped_text:
             response_list = handler(stripped_text, number, messageId, response_list)
-
-        elif keyword == "hairstyle selfie" and any(
-            option in text for option in feats[last_hair_type[number][0]].keys()
-        ):
-            response_list = handler(text, number, messageId, response_list)
 
         elif keyword == "digit text" and text.isdigit():
             response_list = handler(text, number, messageId, numberId, response_list)
@@ -968,6 +1085,11 @@ def manage_chatbot(text, number, messageId, name, numberId):
             for option in feats[last_vto_type[number][0]][
                 last_vto_type[number][-1]
             ].keys()
+        ):
+            response_list = handler(text, number, messageId, response_list)
+            
+        elif keyword == "hairstyle selfie" and any(
+            option in text for option in feats[last_hair_type[number][0]].keys()
         ):
             response_list = handler(text, number, messageId, response_list)
 
