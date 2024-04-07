@@ -371,9 +371,10 @@ def ask_for_selfie(number):
             textwrap.dedent(
                 """
                     Great! Now, I need to see your beautiful face in all its glory. 
-                    Snap a `selfie` for ```foundation, skin tint, concealer, setting powder, contour, or bronzer```, so we can find the perfect match for your skin tone! 
-                    Alternatively, if you’re looking for advice on ```shapewear or nude shoes```, I’d love to see a `picture of your skin patch`. 
-                    Let’s make sure you find the right fit! 😊 
+                    For ```foundation, skin tint, concealer, setting powder, contour, bronzer```: `Send SELFIE` 
+                    For ```hair style or hair color```: `Send SELFIE with full hair visible`
+                    For ```shapewear or nude shoes```: `Snap Skin Patch` 
+                    Let’s make sure you find the right fit!
                     But make sure you’re not wearing any makeup or glasses. I want to see the real you, not the filtered version.
                 """
             ),
@@ -962,7 +963,7 @@ def handle_style_try_on(text, number, messageId, response_list):
     return response_list
 
 
-def handle_style_selfie(text, number, messageId, response_list):
+def handle_style_selfie(text, number, response_list):
     last_hair_type[number].append(text)
 
     selfie_request = ask_for_selfie(number)
@@ -1001,7 +1002,7 @@ def handle_vto_options(text, number, messageId, response_list):
     return response_list
 
 
-def handle_vto_selfie(text, number, messageId, response_list):
+def handle_vto_selfie(text, number, response_list):
     last_vto_type[number].append(text)
 
     selfie_request = ask_for_selfie(number)
@@ -1084,12 +1085,12 @@ def manage_chatbot(text, number, messageId, name, numberId):
                 last_vto_type[number][-1]
             ].keys()
         ):
-            response_list = handler(text, number, messageId, response_list)
+            response_list = handler(text, number, response_list)
             
         elif keyword == "hairstyle selfie" and any(
             option == text for option in feats[last_hair_type[number][0]].keys()
         ):
-            response_list = handler(text, number, messageId, response_list)
+            response_list = handler(text, number, response_list)
 
         else:
             continue
