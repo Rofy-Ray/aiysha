@@ -1055,8 +1055,6 @@ def manage_chatbot(text, number, messageId, name, numberId):
         "vto options": handle_vto_options,
         "vto selfie": handle_vto_selfie,
         "hairstyle selfie": handle_style_selfie,
-        # "recs selfie": handle_recs_selfie,
-        # "plus color options": handle_plus_color_options,
         "else": handle_else_condition,
     }
 
@@ -1089,15 +1087,9 @@ def manage_chatbot(text, number, messageId, name, numberId):
             response_list = handler(text, number, messageId, response_list)
             
         elif keyword == "hairstyle selfie" and any(
-            option in text for option in feats[last_hair_type[number][0]].keys()
+            option == text for option in feats[last_hair_type[number][0]].keys()
         ):
             response_list = handler(text, number, messageId, response_list)
-
-        # elif keyword == "recs selfie" and stripped_text in all_image_options:
-        #     response_list = handler(stripped_text, number, messageId, response_list)
-
-        # elif keyword == "plus color options" and stripped_text in plus_color_options:
-        #     response_list = handler(stripped_text, number, messageId, response_list)
 
         else:
             continue
