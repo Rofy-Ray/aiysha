@@ -247,12 +247,13 @@ def ask_for_selfie(number):
         send_text = text_message(
             number,
             textwrap.dedent(
-                """Great! Now, I need to see your beautiful face in all its glory. 
-                            Snap a `selfie` for ```foundation, skin tint, concealer, setting powder, contour, or bronzer```, so we can find the perfect match for your skin tone! 
-                            Alternatively, if you’re looking for advice on ```shapewear or nude shoes```, I’d love to see a picture of your `skin patch`. 
-                            Let’s make sure you find the right fit! 😊 
-                            But make sure you’re not wearing any makeup or glasses. I want to see the real you, not the filtered version.
-                            """
+                """
+                    Great! Now, I need to see your beautiful face in all its glory. 
+                    Snap a `selfie` for ```foundation, skin tint, concealer, setting powder, contour, or bronzer```, so we can find the perfect match for your skin tone! 
+                    Alternatively, if you’re looking for advice on ```shapewear or nude shoes```, I’d love to see a `picture of your skin patch`. 
+                    Let’s make sure you find the right fit! 😊 
+                    But make sure you’re not wearing any makeup or glasses. I want to see the real you, not the filtered version.
+                """
             ),
         )
         return send_text
@@ -438,8 +439,7 @@ def handle_vto_type(
     media_content,
     numberId,
     messageId,
-    response_list,
-):
+    response_list,):
     try:
         send_hold = pause_text(number)
         response_list.append(send_hold)
@@ -467,8 +467,7 @@ def handle_vto_type(
 
 
 def handle_hair_style(
-    number, last_hair_type, feats, media_content, numberId, messageId, response_list
-):
+    number, last_hair_type, feats, media_content, numberId, messageId, response_list):
     try:
         send_hold = pause_text(number)
         response_list.append(send_hold)
@@ -490,8 +489,7 @@ def handle_hair_style(
 
 
 def fetch_product_recs(
-    number, rec_type, media_content, numberId, messageId, response_list
-):
+    number, rec_type, media_content, numberId, messageId, response_list):
     try:
         send_hold = pause_text(number)
         response_list.append(send_hold)
