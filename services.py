@@ -246,7 +246,14 @@ def ask_for_selfie(number):
     try:
         send_text = text_message(
             number,
-            "Great! Now, I need to see your beautiful face in all its glory. Please snap a selfie and send it to me. But make sure you're not wearing any makeup or glasses. I want to see the real you, not the filtered version.",
+            textwrap.dedent(
+                """Great! Now, I need to see your beautiful face in all its glory. 
+                            Snap a `selfie` for ```foundation, skin tint, concealer, setting powder, contour, or bronzer```, so we can find the perfect match for your skin tone! 
+                            Alternatively, if you’re looking for advice on ```shapewear or nude shoes```, I’d love to see a picture of your `skin patch`. 
+                            Let’s make sure you find the right fit! 😊 
+                            But make sure you’re not wearing any makeup or glasses. I want to see the real you, not the filtered version.
+                            """
+            ),
         )
         return send_text
     except Exception as e:
@@ -265,7 +272,7 @@ def pause_text(number):
 
 
 def follow_up(number, messageId):
-    body = "You were absolutely dazzling! But the show must go on, right? What’s the next act in your personal style saga that I can assist with? 🌟🎭✨"
+    body = "You were absolutely dazzling! But the show must go on, right? Is there a next act in your personal style saga that I can assist with? 🌟🎭✨"
     footer = "AIySha by roboMUA"
     options = ["✅ Yes, please.", "❌ No, thanks."]
 
@@ -431,7 +438,8 @@ def handle_vto_type(
     media_content,
     numberId,
     messageId,
-    response_list,):
+    response_list,
+):
     try:
         send_hold = pause_text(number)
         response_list.append(send_hold)
@@ -459,7 +467,8 @@ def handle_vto_type(
 
 
 def handle_hair_style(
-    number, last_hair_type, feats, media_content, numberId, messageId, response_list):
+    number, last_hair_type, feats, media_content, numberId, messageId, response_list
+):
     try:
         send_hold = pause_text(number)
         response_list.append(send_hold)
@@ -481,7 +490,8 @@ def handle_hair_style(
 
 
 def fetch_product_recs(
-    number, rec_type, media_content, numberId, messageId, response_list):
+    number, rec_type, media_content, numberId, messageId, response_list
+):
     try:
         send_hold = pause_text(number)
         response_list.append(send_hold)
@@ -531,17 +541,17 @@ def create_pdf(products):
 
     for product in products:
         keys_labels = {
-                "Foundation": "Foundation",
-                "Shade": "Shade",
-                "Concealer": "Concealer",
-                "Shoe": "Shoe"
-            }
+            "Foundation": "Foundation",
+            "Shade": "Shade",
+            "Concealer": "Concealer",
+            "Shoe": "Shoe",
+        }
         message = ""
-        
+
         for key, label in keys_labels.items():
             if key in product:
                 message = f"🤎 *{label}*: ```{product[key]}```\n" + message
-        
+
         message += f"💰 *Price*: `{product['Price']}`\n🛍️ *Buy*: ```{product['ProductURL']}```\n🎬 *Tutorial*: ```{product['VideoTutorial']}```\n"
 
         c.drawString(x, y, message)
@@ -592,7 +602,7 @@ def handle_else_condition(text, number, messageId, response_list):
 def handle_product_recs(text, number, messageId, response_list):
     body = "Oh, I see you're feeling adventurous today. Ready to unleash your inner artist and transform your face into a masterpiece? Don't worry, I'll guide you through the process. What kind of look are you going for?"
     footer = "AIySha by roboMUA"
-    options = ["😀 Face", "👀 Eyes", "☺️ Cheeks", "👤 Body"]
+    options = ["😀 Face", "☺️ Cheeks", "👤 Body"]
 
     list_reply_data = list_reply_message(
         number, options, body, footer, "product_recs", messageId
@@ -632,7 +642,7 @@ def handle_cheeks(text, number, messageId, response_list):
 def handle_body(text, number, messageId, response_list):
     body = "Well, well, well, if it isn't the beauty queen herself. Ready to dazzle the world with your fabulous face? Tell me, what kind of magic are we working with today?"
     footer = "AIySha by roboMUA"
-    options = ["🧴 Scents", "🩱 Shapewear", "🥿 Nude Shoes"]
+    options = ["🩱 Shapewear", "🥿 Nude Shoes"]
 
     reply_button_data = button_reply_message(
         number, options, body, footer, "body", messageId
@@ -667,7 +677,7 @@ def handle_vto(text, number, messageId, response_list):
 def handle_hair(text, number, messageId, response_list):
     body = "Cool! Let's spice up your look with some hair color or style changes. What are you in the mood for?"
     footer = "AIySha by roboMUA"
-    options = ["💈 Color Try-On"]  # , "🎀 Style Try-On"
+    options = ["💈 Color Try-On", "🎀 Style Try-On"]
 
     reply_button_data = button_reply_message(
         number, options, body, footer, "hair", messageId
@@ -794,16 +804,16 @@ def handle_company_names(text, number, messageId, name, response_list):
                 "Foundation": "Foundation",
                 "Shade": "Shade",
                 "Concealer": "Concealer",
-                "Shoe": "Shoe"
+                "Shoe": "Shoe",
             }
             message = ""
-            
+
             for key, label in keys_labels.items():
                 if key in product:
                     message = f"🤎 *{label}*: ```{product[key]}```\n" + message
-            
+
             message += f"💰 *Price*: `{product['Price']}`\n🛍️ *Buy*: ```{product['ProductURL']}```\n🎬 *Tutorial*: ```{product['VideoTutorial']}```\n"
-            
+
             send_text = text_message(number, message)
             response_list.append(send_text)
 
@@ -920,11 +930,11 @@ def manage_chatbot(text, number, messageId, name, numberId):
         "color try-on": handle_plus_color_options,
         "lip stick try-on": handle_plus_color_options,
         "lip liner try-on": handle_plus_color_options,
+        "hairstyle selfie": handle_style_selfie,
         "digit text": handle_digit_text,
         "company names": handle_company_names,
         "vto options": handle_vto_options,
         "vto selfie": handle_vto_selfie,
-        # "hairstyle selfie": handle_style_selfie,
         # "recs selfie": handle_recs_selfie,
         # "plus color options": handle_plus_color_options,
         "else": handle_else_condition,
@@ -936,6 +946,11 @@ def manage_chatbot(text, number, messageId, name, numberId):
 
         elif keyword == stripped_text:
             response_list = handler(stripped_text, number, messageId, response_list)
+
+        elif keyword == "hairstyle selfie" and any(
+            option in text for option in feats[last_hair_type[number][0]].keys()
+        ):
+            response_list = handler(text, number, messageId, response_list)
 
         elif keyword == "digit text" and text.isdigit():
             response_list = handler(text, number, messageId, numberId, response_list)
@@ -957,9 +972,6 @@ def manage_chatbot(text, number, messageId, name, numberId):
             ].keys()
         ):
             response_list = handler(text, number, messageId, response_list)
-
-        # elif keyword == "hairstyle selfie" and any(option in text for option in feats[last_hair_type[number][0]].keys()):
-        #     response_list = handler(text, number, messageId, response_list)
 
         # elif keyword == "recs selfie" and stripped_text in all_image_options:
         #     response_list = handler(stripped_text, number, messageId, response_list)
