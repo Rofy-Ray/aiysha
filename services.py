@@ -1051,11 +1051,6 @@ def manage_chatbot(text, number, messageId, name, numberId):
         "color try-on": handle_plus_color_options,
         "lip stick try-on": handle_plus_color_options,
         "lip liner try-on": handle_plus_color_options,
-        "digit text": handle_digit_text,
-        "company names": handle_company_names,
-        "vto options": handle_vto_options,
-        "vto selfie": handle_vto_selfie,
-        # "hairstyle selfie": handle_style_selfie,
         "hair out": handle_style_selfie,
         "afro": handle_style_selfie,
         "box braids": handle_style_selfie,
@@ -1063,6 +1058,11 @@ def manage_chatbot(text, number, messageId, name, numberId):
         "bantu knots": handle_style_selfie,
         "high top fade": handle_style_selfie,
         "weave cap": handle_style_selfie,
+        "digit text": handle_digit_text,
+        "company names": handle_company_names,
+        "vto options": handle_vto_options,
+        "vto selfie": handle_vto_selfie,
+        # "hairstyle selfie": handle_style_selfie,
         "else": handle_else_condition,
     }
 
@@ -1072,6 +1072,9 @@ def manage_chatbot(text, number, messageId, name, numberId):
 
         elif keyword == stripped_text:
             response_list = handler(stripped_text, number, messageId, response_list)
+            
+        elif keyword == text:
+            response_list = handler(text, number, response_list)
 
         elif keyword == "digit text" and text.isdigit():
             response_list = handler(text, number, messageId, numberId, response_list)
@@ -1092,9 +1095,6 @@ def manage_chatbot(text, number, messageId, name, numberId):
                 last_vto_type[number][-1]
             ].keys()
         ):
-            response_list = handler(text, number, response_list)
-            
-        elif keyword == text:
             response_list = handler(text, number, response_list)
             
         # elif keyword == "hairstyle selfie" and any(
