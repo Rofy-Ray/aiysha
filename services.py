@@ -371,9 +371,9 @@ def ask_for_selfie(number):
             textwrap.dedent(
                 """
                     Great! Now, I need to see your beautiful face in all its glory. 
-                    For ```foundation, skin tint, concealer, setting powder, contour, bronzer```: `Send SELFIE` 
-                    For ```hair style or hair color```: `Send SELFIE with full hair visible`
-                    For ```shapewear or nude shoes```: `Snap Skin Patch` 
+                    For ```foundation, skin tint, concealer, setting powder, contour, bronzer:``` `Send SELFIE` 
+                    For ```hair style or hair color:``` `Send SELFIE with full hair visible`
+                    For ```shapewear or nude shoes:``` `Snap Skin Patch` 
                     Let’s make sure you find the right fit!
                     But make sure you’re not wearing any makeup or glasses. I want to see the real you, not the filtered version.
                 """
@@ -1055,7 +1055,14 @@ def manage_chatbot(text, number, messageId, name, numberId):
         "company names": handle_company_names,
         "vto options": handle_vto_options,
         "vto selfie": handle_vto_selfie,
-        "hairstyle selfie": handle_style_selfie,
+        # "hairstyle selfie": handle_style_selfie,
+        "hair out": handle_style_selfie,
+        "afro": handle_style_selfie,
+        "box braids": handle_style_selfie,
+        "twist curls": handle_style_selfie,
+        "bantu knots": handle_style_selfie,
+        "high top fade": handle_style_selfie,
+        "weave cap": handle_style_selfie,
         "else": handle_else_condition,
     }
 
@@ -1087,10 +1094,13 @@ def manage_chatbot(text, number, messageId, name, numberId):
         ):
             response_list = handler(text, number, response_list)
             
-        elif keyword == "hairstyle selfie" and any(
-            option == text for option in feats[last_hair_type[number][0]].keys()
-        ):
+        elif keyword == text:
             response_list = handler(text, number, response_list)
+            
+        # elif keyword == "hairstyle selfie" and any(
+        #     option == text for option in feats[last_hair_type[number][0]].keys()
+        # ):
+        #     response_list = handler(text, number, response_list)
 
         else:
             continue
