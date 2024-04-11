@@ -94,8 +94,18 @@ def process_requests():
                 # Get the text from the message
                 text = services.get_whatsapp_message(message)
                 
+                # Calling the 'get_variables' function from the 'services' module.
+                # This function returns the variables 'last_vto_type', 'recs_data', and 'feats'.
+                last_vto_type, recs_data, feats = services.get_variables()
+
+                # Calling the 'manage_chatbot' function from the 'services' module.
+                # This function requires eight arguments: 'text', 'number', 'messageId', 'name', 'numberId', 'last_vto_type', 'recs_data', and 'feats'.
+                # The variables 'last_vto_type', 'recs_data', and 'feats' obtained from the 'get_variables' function are passed as arguments.
+                services.manage_chatbot(text, number, messageId, name, numberId, last_vto_type, recs_data, feats)
+
+                
                 # Manage the chatbot with the text, number, message ID, name, and number ID
-                services.manage_chatbot(text, number, messageId, name, numberId)
+                # services.manage_chatbot(text, number, messageId, name, numberId)
         # If an exception occurs, log the error
         except Exception as e:
             logging.error("Error processing message: {}".format(e))

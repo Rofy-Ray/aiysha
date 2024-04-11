@@ -1879,6 +1879,21 @@ def handle_vto_selfie(text: str, number: str, response_list: List[str], last_vto
     return response_list
 
 
+def get_variables():
+    """
+    This function returns the variables 'last_vto_type', 'recs_data', and 'feats' which are required for the 'manage_chatbot' function.
+
+    Returns:
+    last_vto_type (dict): A dictionary to store the last VTO (Virtual Try-On) type for each number.
+    recs_data (dict): A dictionary to store the company names and products for each number.
+    feats (dict): A dictionary that stores the features for each text.
+
+    Note: The actual definitions of 'last_vto_type', 'recs_data', and 'feats' should be present in the scope where this function is defined.
+    """
+    # Returning the variables 'last_vto_type', 'recs_data', and 'feats'
+    return last_vto_type, recs_data, feats
+
+
 # A dictionary to store the last recommendation type for each number
 last_rec_type = {}
 
