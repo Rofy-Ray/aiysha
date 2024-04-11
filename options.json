@@ -156,12 +156,15 @@
     }
   },
   "style try-on": {
-    "hair out": "1",
-    "afro": "3",
     "box braids": "4",
-    "twist curls": "5",
+    "kinky twist": "5",
+    "lemonade braids": "10",
     "bantu knots": "11",
+    "wavy bob": "13",
     "high top fade": "16",
-    "weave cap": "20"
+    "buzz cut": "17",
+    "twist out": "18",
+    "wash n go": "19",
+    "pixie cut": "20"
   }
 }

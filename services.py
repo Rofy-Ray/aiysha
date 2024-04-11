@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Import necessary libraries
 import requests
 import json
 import time
@@ -17,16 +18,21 @@ import configparser
 from dotenv import load_dotenv
 from data import greetings, all_image_options, plus_color_options
 
+# Load environment variables from .env file
 load_dotenv()
 
+# Set up logging with INFO level
 logging.basicConfig(level=logging.INFO)
 
+# Open and load JSON data from options.json file
 with open("options.json") as f:
     feats = json.load(f)
 
+# Read configuration from config.ini file
 config = configparser.ConfigParser()
 config.read("config.ini")
 
+# Get URLs for different services from the configuration
 hair_color_try_on_edge = config["url"]["hair_color_try_on_edge"]
 lip_stick_try_on_edge = config["url"]["lip_stick_try_on_edge"]
 lip_liner_try_on_edge = config["url"]["lip_liner_try_on_edge"]
@@ -1299,89 +1305,224 @@ def handle_face(text: str, number: str, messageId: str, response_list: List[str]
     return response_list
 
 
-def handle_cheeks(text, number, messageId, response_list):
+def handle_cheeks(text: str, number: int, messageId: str, response_list: List[str]) -> List[str]:
+    """
+    This function handles the 'cheeks' makeup option in the virtual makeup assistant.
+    
+    Parameters:
+    text (str): The text message from the user.
+    number (int): The number associated with the user's message.
+    messageId (str): The unique identifier for the user's message.
+    response_list (List[str]): The list of responses generated so far.
+
+    Returns:
+    List[str]: The updated list of responses after handling the 'cheeks' makeup option.
+    """
+    
+    # Define the body of the message
     body = "I see you're in the mood for some glam. Don't worry, I've got you covered. Whether you want to go for a natural look or a full-on diva, I'm here to help. So, what's the plan, Stan?"
+    
+    # Define the footer of the message
     footer = "AIySha by roboMUA"
+    
+    # Define the options for the user
     options = ["😊 Contour", "🥉 Bronzer"]
 
+    # Generate the reply button data
     reply_button_data = button_reply_message(
         number, options, body, footer, "cheeks", messageId
     )
+    
+    # Append the reply button data to the response list
     response_list.append(reply_button_data)
 
+    # Return the updated response list
     return response_list
 
 
-def handle_body(text, number, messageId, response_list):
+def handle_body(text: str, number: int, messageId: str, response_list: List[str]) -> List[str]:
+    """
+    This function handles the 'body' fashion option in the virtual fashion assistant.
+    
+    Parameters:
+    text (str): The text message from the user.
+    number (int): The number associated with the user's message.
+    messageId (str): The unique identifier for the user's message.
+    response_list (List[str]): The list of responses generated so far.
+
+    Returns:
+    List[str]: The updated list of responses after handling the 'body' fashion option.
+    """
+    
+    # Define the body of the message
     body = "Well, well, well, if it isn't the beauty queen herself. Ready to dazzle the world with your fabulous face? Tell me, what kind of magic are we working with today?"
+    
+    # Define the footer of the message
     footer = "AIySha by roboMUA"
+    
+    # Define the options for the user
     options = ["🩱 Shapewear", "🥿 Nude Shoes"]
 
+    # Generate the reply button data
     reply_button_data = button_reply_message(
         number, options, body, footer, "body", messageId
     )
+    
+    # Append the reply button data to the response list
     response_list.append(reply_button_data)
 
+    # Return the updated response list
     return response_list
 
 
-def handle_recs_selfie(text, number, messageId, response_list):
+def handle_recs_selfie(text: str, number: str, messageId: str, response_list: List[str], last_rec_type: Dict[str, str]) -> List[str]:
+    """
+    This function handles the case where the user is asked to take a selfie to be used to generate the appropriate recommendations.
+
+    Parameters:
+    text (str): The input text.
+    number (str): The phone number of the recipient.
+    messageId (str): The ID of the message.
+    response_list (List[str]): A list of responses to be sent.
+    last_rec_type (Dict[str, str]): A dictionary that stores the last recommendation type for each number.
+
+    Returns:
+    List[str]: The updated list of responses.
+    """
+    # Update the last recommendation type for the given number
     last_rec_type[number] = text
 
+    # Generate a request for a selfie
     selfie_request = ask_for_selfie(number)
+
+    # Add the selfie request to the list of responses
     response_list.append(selfie_request)
 
+    # Return the updated list of responses
     return response_list
 
 
-def handle_vto(text, number, messageId, response_list):
+def handle_vto(text: str, number: str, messageId: str, response_list: List[str]) -> List[str]:
+    """
+    This function handles the case where the user wants to try on a virtual makeover and generates the appropriate responses.
+
+    Parameters:
+    text (str): The input text.
+    number (str): The phone number of the recipient.
+    messageId (str): The ID of the message.
+    response_list (List[str]): A list of responses to be sent.
+
+    Returns:
+    List[str]: The updated list of responses.
+    """
+    # Define the body, footer, and options of the message
     body = "Awesome! Let's give you a new look with some digital magic. What kind of vibe are you going for?"
     footer = "AIySha by roboMUA"
     options = ["🪮 Hair", "👄 Lips"]
 
+    # Create a button reply message
     reply_button_data = button_reply_message(
         number, options, body, footer, "vto", messageId
     )
+
+    # Add the button reply message to the list of responses
     response_list.append(reply_button_data)
 
+    # Return the updated list of responses
     return response_list
 
 
-def handle_hair(text, number, messageId, response_list):
+def handle_hair(text: str, number: str, messageId: str, response_list: List[str]) -> List[str]:
+    """
+    This function handles the case where the user wants to try on a virtual hair makeover and generates the appropriate responses.
+
+    Parameters:
+    text (str): The input text.
+    number (str): The phone number of the recipient.
+    messageId (str): The ID of the message.
+    response_list (List[str]): A list of responses to be sent.
+
+    Returns:
+    List[str]: The updated list of responses.
+    """
+    # Define the body, footer, and options of the message
     body = "Cool! Let's spice up your look with some hair color or style changes. What are you in the mood for?"
     footer = "AIySha by roboMUA"
     options = ["💈 Color Try-On", "🎀 Style Try-On"]
 
+    # Create a button reply message
     reply_button_data = button_reply_message(
         number, options, body, footer, "hair", messageId
     )
+
+    # Add the button reply message to the list of responses
     response_list.append(reply_button_data)
 
+    # Return the updated list of responses
     return response_list
 
 
-def handle_lips(text, number, messageId, response_list):
+def handle_lips(text: str, number: str, messageId: str, response_list: List[str]) -> List[str]:
+    """
+    This function handles the case where the user wants to try on a virtual lips makeover and generates the appropriate responses.
+
+    Parameters:
+    text (str): The input text.
+    number (str): The phone number of the recipient.
+    messageId (str): The ID of the message.
+    response_list (List[str]): A list of responses to be sent.
+
+    Returns:
+    List[str]: The updated list of responses.
+    """
+    # Define the body, footer, and options of the message
     body = "O-kay! Looks like we’re mixing up our beauty stations. For lips that pop, are we thinking bold and daring with a fiery red, or classic chic with a nude shade? And don’t forget the lipliner – it’s the secret agent that keeps your lipstick from going rogue. 💄🕵️‍♀️✨"
     footer = "AIySha by roboMUA"
     options = ["💋 Lip Stick Try-On", "🫦 Lip Liner Try-On"]
 
+    # Create a button reply message
     reply_button_data = button_reply_message(
         number, options, body, footer, "lips", messageId
     )
+
+    # Add the button reply message to the list of responses
     response_list.append(reply_button_data)
 
+    # Return the updated list of responses
     return response_list
 
 
-def handle_digit_text(text, number, messageId, numberId, response_list):
+def handle_digit_text(text: str, number: str, messageId: str, numberId: str, response_list: List[str], last_rec_type: Dict[str, str], last_vto_type: Dict[str, str], last_hair_type: Dict[str, str]) -> List[str]:
+    """
+    This function handles the case where the user sends a photo (usually selfie) or an image and generates the appropriate responses.
+
+    Parameters:
+    text (str): The input text.
+    number (str): The phone number of the recipient.
+    messageId (str): The ID of the message.
+    numberId (str): The ID of the number.
+    response_list (List[str]): A list of responses to be sent.
+    last_rec_type (Dict[str, str]): A dictionary that stores the last recommendation type for each number.
+    last_vto_type (Dict[str, str]): A dictionary that stores the last VTO type for each number.
+    last_hair_type (Dict[str, str]): A dictionary that stores the last hair type for each number.
+
+    Returns:
+    List[str]: The updated list of responses.
+    """
+    # Try to download the media content from the text
     try:
         media_content = download_media(text, numberId)
     except Exception as e:
         logging.error(e)
+
+    # If the media content is not None
     if media_content is not None:
+        # Get the last recommendation type, VTO type, and hair type for the given number
         rec_type = last_rec_type.get(number)
         vto_type = last_vto_type.get(number)
         hair_type = last_hair_type.get(number)
+
+        # If the last recommendation type is in all image options
         if rec_type and any(option in rec_type for option in all_image_options):
             (
                 response_list,
@@ -1390,6 +1531,7 @@ def handle_digit_text(text, number, messageId, numberId, response_list):
             ) = fetch_product_recs(
                 number, rec_type, media_content, numberId, messageId, response_list
             )
+        # If the last VTO type is in plus color options
         elif vto_type and any(option in vto_type for option in plus_color_options):
             response_list = handle_vto_type(
                 vto_type,
@@ -1401,6 +1543,7 @@ def handle_digit_text(text, number, messageId, numberId, response_list):
                 messageId,
                 response_list,
             )
+        # If the last hair type is "style try-on"
         elif hair_type and "style try-on" in hair_type:
             response_list = handle_hair_style(
                 number,
@@ -1411,68 +1554,134 @@ def handle_digit_text(text, number, messageId, numberId, response_list):
                 messageId,
                 response_list,
             )
+        # If none of the above conditions are met
         else:
             send_text = text_message(
                 number,
                 "Oops, this photo came in at the wrong time. I can't work on this right now. Could you please send me another selfie after you tell me what product you're looking for? Or after you choose a VTO option? Pretty please?",
             )
             response_list.append(send_text)
+
+        # If the number is in the last recommendation type, delete it
         if number in last_rec_type:
             del last_rec_type[number]
 
+        # If the number is in the last VTO type, delete it
         if number in last_vto_type:
             del last_vto_type[number]
 
+        # If the number is in the last hair type, delete it
         if number in last_hair_type:
             del last_hair_type[number]
 
+    # Return the updated list of responses
     return response_list
 
 
-def handle_yes_please(text, number, messageId, response_list):
+def handle_yes_please(text: str, number: str, messageId: str, response_list: List[str]) -> List[str]:
+    """
+    This function handles the case where the user responds with "yes please" and generates the appropriate responses.
+
+    Parameters:
+    text (str): The input text.
+    number (str): The phone number of the recipient.
+    messageId (str): The ID of the message.
+    response_list (List[str]): A list of responses to be sent.
+
+    Returns:
+    List[str]: The updated list of responses.
+    """
+    # Define the body, footer, and options of the message
     body = "You’re on a roll! It’s like we’ve got a magic wand for fun – just wave it and poof! What’s the next adventure you’d like to conjure up? 🪄✨"
     footer = "AIySha by roboMUA"
     options = ["💄 Product Recs", "🪞 Try-On"]
 
+    # Create a button reply message
     reply_button_data = button_reply_message(
         number, options, body, footer, "intro", messageId
     )
+
+    # Add the button reply message to the list of responses
     response_list.append(reply_button_data)
 
+    # Return the updated list of responses
     return response_list
 
 
-def handle_no_thanks(text, number, messageId, response_list):
+def handle_no_thanks(text: str, number: str, messageId: str, response_list: List[str]) -> List[str]:
+    """
+    This function handles the case where the user responds with "no thanks" and generates the appropriate responses.
+
+    Parameters:
+    text (str): The input text.
+    number (str): The phone number of the recipient.
+    messageId (str): The ID of the message.
+    response_list (List[str]): A list of responses to be sent.
+
+    Returns:
+    List[str]: The updated list of responses.
+    """
+    # Define the text message to be sent
     send_text = text_message(
         number,
         textwrap.dedent(
             """
-                        Absolutely! Don’t forget to snag our app for: 
-                        `iOS` ```@ https://apps.apple.com/us/app/robomua/id6443639738```
-                        `Android` ```@ https://play.google.com/store/apps/details?id=com.domainname.roboMUANEW```
-                        It’s like having a genie in your pocket – minus the three-wish limit. I’m just a text away, ready to grant your digital wishes. Catch you on the flip side! 😄🧞‍♂️✨
-                        """
+            Absolutely! Don’t forget to snag our app for: 
+            `iOS` ```@ https://apps.apple.com/us/app/robomua/id6443639738```
+            `Android` ```@ https://play.google.com/store/apps/details?id=com.domainname.roboMUANEW```
+            It’s like having a genie in your pocket – minus the three-wish limit. I’m just a text away, ready to grant your digital wishes. Catch you on the flip side! 😄🧞‍♂️✨
+            """
         ),
     )
+
+    # Add the text message to the list of responses
     response_list.append(send_text)
 
+    # Return the updated list of responses
     return response_list
 
 
-def handle_company_names(text, number, messageId, name, response_list):
+def handle_company_names(text: str, number: str, messageId: str, name: str, response_list: List[str], recs_data: Dict[str, Dict[str, List[Dict[str, str]]]]) -> List[str]:
+    """
+    This function handles the case where the user wants to get recommendations from specific companies and generates the appropriate responses.
+
+    Parameters:
+    text (str): The input text.
+    number (str): The phone number of the recipient.
+    messageId (str): The ID of the message.
+    name (str): The name of the recipient.
+    response_list (List[str]): A list of responses to be sent.
+    recs_data (Dict[str, Dict[str, List[Dict[str, str]]]]): A dictionary that stores the company names and products for each number.
+
+    Returns:
+    List[str]: The updated list of responses.
+    """
+    # Get the products from the company specified in the text
     products = recs_data["company_products"].get(text, [])
+
+    # If the number of products is more than 5
     if len(products) > 5:
+        # Create a PDF file with the products
         rec_file = create_pdf(products)
+
+        # Upload the PDF file
         doc_file = upload_media(rec_file, numberId)
+
+        # Create a document message with the PDF file
         send_doc = document_message(
             number,
             doc_file,
             "Your Recommendations",
             "{}'s Recommendations.pdf".format(name),
         )
+
+        # Add the document message to the list of responses
         response_list.append(send_doc)
+    # If the number of products is less than or equal to 5
     else:
+        # For each product
         for product in products:
+            # Define the keys and labels
             keys_labels = {
                 "Foundation": "Foundation",
                 "Shade": "Shade",
@@ -1481,105 +1690,244 @@ def handle_company_names(text, number, messageId, name, response_list):
             }
             message = ""
 
+            # For each key and label
             for key, label in keys_labels.items():
+                # If the key is in the product
                 if key in product:
+                    # Add the label and the value of the key to the message
                     message = f"🤎 *{label}*: ```{product[key]}```\n" + message
 
+            # Add the price, buy link, and tutorial link to the message
             message += f"💰 *Price*: `{product['Price']}`\n🛍️ *Buy*: ```{product['ProductURL']}```\n🎬 *Tutorial*: ```{product['VideoTutorial']}```\n"
 
+            # Create a text message with the message
             send_text = text_message(number, message)
+
+            # Add the text message to the list of responses
             response_list.append(send_text)
 
+    # If "company_names" and "company_products" are in recs_data
     if "company_names" in recs_data and "company_products" in recs_data:
+        # Clear the company names and products
         recs_data["company_names"] = []
         recs_data["company_products"] = {}
 
+    # Create a follow-up message
     check_in = follow_up(number, messageId)
+
+    # Add the follow-up message to the list of responses
     response_list.append(check_in)
 
+    # Return the updated list of responses
     return response_list
 
 
-def handle_style_try_on(text, number, messageId, response_list):
+def handle_style_try_on(text: str, number: str, messageId: str, response_list: List[str], last_hair_type: Dict[str, List[str]], feats: Dict[str, Dict[str, str]]) -> List[str]:
+    """
+    This function handles the case where the user wants to try on a virtual hair style and generates the appropriate responses.
+
+    Parameters:
+    text (str): The input text.
+    number (str): The phone number of the recipient.
+    messageId (str): The ID of the message.
+    response_list (List[str]): A list of responses to be sent.
+    last_hair_type (Dict[str, List[str]]): A dictionary that stores the last hair type for each number.
+    feats (Dict[str, Dict[str, str]]): A dictionary that stores the features for each text.
+
+    Returns:
+    List[str]: The updated list of responses.
+    """
+    # Add the text to the last hair type for the given number
     last_hair_type.setdefault(number, []).append(text)
 
+    # Define the body, footer, and options of the message
     body = "Whoops, let’s steer our style compass towards the hair salon! Are we thinking a daring pixie cut, or perhaps flowing mermaid waves? Maybe even a color that screams ‘rockstar’? Let’s create a ‘hair-raising’ experience! 💇‍♀️🎨🤘"
     footer = "AIySha by roboMUA"
     options = [name.title() for name in feats[text].keys()]
 
+    # Create a list reply message
     list_reply_data = list_reply_message(
         number, options, body, footer, "vto_opt_3", messageId
     )
+
+    # Add the list reply message to the list of responses
     response_list.append(list_reply_data)
 
+    # Return the updated list of responses
     return response_list
 
 
-def handle_style_selfie(text, number, response_list):
+def handle_style_selfie(text: str, number: str, response_list: List[str], last_hair_type: Dict[str, List[str]]) -> List[str]:
+    """
+    This function handles the case where the user is requested to take a selfie for a virtual hair style and generates the appropriate responses.
+
+    Parameters:
+    text (str): The input text.
+    number (str): The phone number of the recipient.
+    response_list (List[str]): A list of responses to be sent.
+    last_hair_type (Dict[str, List[str]]): A dictionary that stores the last hair type for each number.
+
+    Returns:
+    List[str]: The updated list of responses.
+    """
+    # Add the text to the last hair type for the given number
     last_hair_type[number].append(text)
 
+    # Generate a request for a selfie
     selfie_request = ask_for_selfie(number)
+
+    # Add the selfie request to the list of responses
     response_list.append(selfie_request)
 
+    # Return the updated list of responses
     return response_list
 
 
-def handle_plus_color_options(text, number, messageId, response_list):
+def handle_plus_color_options(text: str, number: str, messageId: str, response_list: List[str], last_vto_type: Dict[str, List[str]], feats: Dict[str, Dict[str, str]]) -> List[str]:
+    """
+    This function handles the case where the user wants to try on a virtual lipstick, lip liner or hair color option and generates the appropriate responses.
+
+    Parameters:
+    text (str): The input text.
+    number (str): The phone number of the recipient.
+    messageId (str): The ID of the message.
+    response_list (List[str]): A list of responses to be sent.
+    last_vto_type (Dict[str, List[str]]): A dictionary that stores the last VTO type for each number.
+    feats (Dict[str, Dict[str, str]]): A dictionary that stores the features for each text.
+
+    Returns:
+    List[str]: The updated list of responses.
+    """
+    # Add the text to the last VTO type for the given number
     last_vto_type.setdefault(number, []).append(text)
 
+    # Define the body, footer, and options of the message
     body = "Got it! It’s like we’re in a candy store of brands, and you’re about to pick the sweetest treat. So, which one makes you feel like a kid in a fashion wonderland? 🍭👗✨"
     footer = "AIySha by roboMUA"
     options = [name.title() for name in feats[text].keys()]
 
+    # Create a list reply message
     list_reply_data = list_reply_message(
         number, options, body, footer, "vto_opt_1", messageId
     )
+
+    # Add the list reply message to the list of responses
     response_list.append(list_reply_data)
 
+    # Return the updated list of responses
     return response_list
 
 
-def handle_vto_options(text, number, messageId, response_list):
+def handle_vto_options(text: str, number: str, messageId: str, response_list: List[str], last_vto_type: Dict[str, List[str]], feats: Dict[str, Dict[str, Dict[str, str]]]) -> List[str]:
+    """
+    This function handles the case where the user wants to try on a virtual option and generates the appropriate responses.
+
+    Parameters:
+    text (str): The input text.
+    number (str): The phone number of the recipient.
+    messageId (str): The ID of the message.
+    response_list (List[str]): A list of responses to be sent.
+    last_vto_type (Dict[str, List[str]]): A dictionary that stores the last VTO type for each number.
+    feats (Dict[str, Dict[str, Dict[str, str]]]): A dictionary that stores the features for each text.
+
+    Returns:
+    List[str]: The updated list of responses.
+    """
+    # Add the text to the last VTO type for the given number
     last_vto_type[number].append(text)
 
+    # Define the body, footer, and options of the message
     body = "Brilliant pick! It’s like choosing a superhero costume – so, which shade of awesome are we going for today? 🦸‍♂️🌈"
     footer = "AIySha by roboMUA"
     options = [key.title() for key in feats[last_vto_type[number][0]][text].keys()]
 
+    # Create a list reply message
     list_reply_data = list_reply_message(
         number, options, body, footer, "vto_opt_2", messageId
     )
+
+    # Add the list reply message to the list of responses
     response_list.append(list_reply_data)
 
+    # Return the updated list of responses
     return response_list
 
 
-def handle_vto_selfie(text, number, response_list):
+def handle_vto_selfie(text: str, number: str, response_list: List[str], last_vto_type: Dict[str, List[str]]) -> List[str]:
+    """
+    This function handles the case where the user is asked to take a selfie for a virtual try-on (VTO) and generates the appropriate responses.
+
+    Parameters:
+    text (str): The input text.
+    number (str): The phone number of the recipient.
+    response_list (List[str]): A list of responses to be sent.
+    last_vto_type (Dict[str, List[str]]): A dictionary that stores the last VTO type for each number.
+
+    Returns:
+    List[str]: The updated list of responses.
+    """
+    # Add the text to the last VTO type for the given number
     last_vto_type[number].append(text)
 
+    # Generate a request for a selfie
     selfie_request = ask_for_selfie(number)
+
+    # Add the selfie request to the list of responses
     response_list.append(selfie_request)
 
+    # Return the updated list of responses
     return response_list
 
 
+# A dictionary to store the last recommendation type for each number
 last_rec_type = {}
+
+# A dictionary to store the last VTO (Virtual Try-On) type for each number
 last_vto_type = {}
+
+# A dictionary to store the last hair type for each number
 last_hair_type = {}
+
+# A dictionary to store the company names and products for each number
 recs_data = {"company_names": [], "company_products": {}}
 
 
-def manage_chatbot(text, number, messageId, name, numberId):
+def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: str, last_vto_type: Dict[str, List[str]], recs_data: Dict[str, List[str]], feats: Dict[str, Dict[str, Dict[str, str]]]) -> None:
+    """
+    This function manages the chatbot by handling different types of user inputs and generating the appropriate responses.
+
+    Parameters:
+    text (str): The input text.
+    number (str): The phone number of the recipient.
+    messageId (str): The ID of the message.
+    name (str): The name of the recipient.
+    numberId (str): The ID of the number.
+    last_vto_type (Dict[str, List[str]]): A dictionary that stores the last VTO type for each number.
+    recs_data (Dict[str, List[str]]): A dictionary that stores the company names and products for each number.
+    feats (Dict[str, Dict[str, Dict[str, str]]]): A dictionary that stores the features for each text.
+
+    Returns:
+    None
+    """
+    # Convert the text to lower case
     text = text.lower()
+
+    # Remove emojis and strip the text
     stripped_text = remove_emoji_and_strip(text)
+
+    # Initialize the list of responses
     response_list = []
+
+    # Initialize the temporary files
     downloaded_temp_file = None
     temp_image_file = None
     temp_doc_file = None
 
+    # Mark the message as read
     mark_read = mark_read_message(messageId)
     response_list.append(mark_read)
 
+    # Define the handlers for different types of user inputs
     handlers = {
         "greetings": handle_greetings,
         "product recs": handle_product_recs,
@@ -1603,44 +1951,54 @@ def manage_chatbot(text, number, messageId, name, numberId):
         "color try-on": handle_plus_color_options,
         "lip stick try-on": handle_plus_color_options,
         "lip liner try-on": handle_plus_color_options,
-        "hair out": handle_style_selfie,
-        "afro": handle_style_selfie,
         "box braids": handle_style_selfie,
-        "twist curls": handle_style_selfie,
+        "kinky twist": handle_style_selfie,
+        "lemonade braids": handle_style_selfie,
         "bantu knots": handle_style_selfie,
+        "wavy bob": handle_style_selfie,
         "high top fade": handle_style_selfie,
-        "weave cap": handle_style_selfie,
+        "buzz cut": handle_style_selfie,
+        "twist out": handle_style_selfie,
+        "wash n go": handle_style_selfie,
+        "pixie cut": handle_style_selfie,
         "digit text": handle_digit_text,
         "company names": handle_company_names,
         "vto options": handle_vto_options,
         "vto selfie": handle_vto_selfie,
-        # "hairstyle selfie": handle_style_selfie,
         "else": handle_else_condition,
     }
 
+    # For each keyword and handler in the handlers
     for keyword, handler in handlers.items():
+        # If the keyword is "greetings" and the text is a greeting
         if keyword == "greetings" and any(greeting == text for greeting in greetings):
             response_list = handler(text, number, messageId, response_list)
 
+        # If the keyword is the stripped text
         elif keyword == stripped_text:
             response_list = handler(stripped_text, number, messageId, response_list)
             
+        # If the keyword is the text
         elif keyword == text:
             response_list = handler(text, number, response_list)
 
+        # If the keyword is "digit text" and the text is a digit
         elif keyword == "digit text" and text.isdigit():
             response_list = handler(text, number, messageId, numberId, response_list)
 
+        # If the keyword is "company names" and the text is a company name
         elif keyword == "company names" and any(
             option in text for option in recs_data["company_names"]
         ):
             response_list = handler(text, number, messageId, name, response_list)
 
+        # If the keyword is "vto options" and the text is a VTO option
         elif keyword == "vto options" and any(
             option in text for option in feats[last_vto_type[number][0]].keys()
         ):
             response_list = handler(text, number, messageId, response_list)
 
+        # If the keyword is "vto selfie" and the text is a VTO selfie option
         elif keyword == "vto selfie" and any(
             option in text
             for option in feats[last_vto_type[number][0]][
@@ -1648,26 +2006,29 @@ def manage_chatbot(text, number, messageId, name, numberId):
             ].keys()
         ):
             response_list = handler(text, number, response_list)
-            
-        # elif keyword == "hairstyle selfie" and any(
-        #     option == text for option in feats[last_hair_type[number][0]].keys()
-        # ):
-        #     response_list = handler(text, number, response_list)
 
+        # If none of the above conditions are met, continue to the next keyword and handler
         else:
             continue
+
+        # If one of the above conditions is met, break the loop
         break
+    # If none of the above conditions are met, use the "else" handler
     else:
         response_list = handlers["else"]
 
+    # For each item in the list of responses, send a WhatsApp message
     for item in response_list:
         send_whatsapp_message(item)
 
+    # If the downloaded temporary file exists, remove it
     if downloaded_temp_file is not None and os.path.isfile(downloaded_temp_file.name):
         os.remove(downloaded_temp_file.name)
 
+    # If the temporary image file exists, remove it
     if temp_image_file is not None and os.path.isfile(temp_image_file.name):
         os.remove(temp_image_file.name)
 
+    # If the temporary document file exists, remove it
     if temp_doc_file is not None and os.path.isfile(temp_doc_file.name):
         os.remove(temp_doc_file.name)
