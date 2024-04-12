@@ -478,7 +478,7 @@ def ask_for_selfie(number: str) -> str:
 
 def pause_text(number: str) -> Tuple[str, int]:
     """
-    This function creates a text message asking the user to wait.
+    This function creates a text message asking the user to wait while an image or photo is being processed to generate recommendations or show results.
 
     Parameters:
     number (str): The phone number of the recipient.
@@ -528,7 +528,7 @@ def follow_up(number: str, messageId: str) -> str:
 
 def remove_emoji_and_strip(input_string: str) -> str:
     """
-    This function removes the first two characters (usually an emoji) from a string and then removes any leading or trailing whitespace.
+    This function removes the first two characters (usually an emoji) from a string and then removes any leading or trailing whitespace if the string has an emoji.
 
     Parameters:
     input_string (str): The input string from which the first two characters and any leading or trailing whitespace should be removed.
@@ -1375,7 +1375,7 @@ def handle_body(text: str, number: int, messageId: str, response_list: List[str]
     return response_list
 
 
-def handle_recs_selfie(text: str, number: str, messageId: str, response_list: List[str], last_rec_type: Dict[str, str]) -> List[str]:
+def handle_recs_selfie(text: str, number: str, messageId: str, response_list: List[str], last_rec_type: Dict[str, str], *args, **kwargs) -> List[str]:
     """
     This function handles the case where the user is asked to take a selfie to be used to generate the appropriate recommendations.
 
@@ -1722,7 +1722,7 @@ def handle_company_names(text: str, number: str, messageId: str, name: str, resp
     return response_list
 
 
-def handle_style_try_on(text: str, number: str, messageId: str, response_list: List[str], last_hair_type: Dict[str, List[str]], feats: Dict[str, Dict[str, str]]) -> List[str]:
+def handle_style_try_on(text: str, number: str, messageId: str, response_list: List[str], last_hair_type: Dict[str, List[str]], feats: Dict[str, Dict[str, str]], *args, **kwargs) -> List[str]:
     """
     This function handles the case where the user wants to try on a virtual hair style and generates the appropriate responses.
 
@@ -1783,7 +1783,7 @@ def handle_style_selfie(text: str, number: str, response_list: List[str], last_h
     return response_list
 
 
-def handle_plus_color_options(text: str, number: str, messageId: str, response_list: List[str], last_vto_type: Dict[str, List[str]], feats: Dict[str, Dict[str, str]]) -> List[str]:
+def handle_plus_color_options(text: str, number: str, messageId: str, response_list: List[str], last_vto_type: Dict[str, List[str]], feats: Dict[str, Dict[str, str]], *args, **kwargs) -> List[str]:
     """
     This function handles the case where the user wants to try on a virtual lipstick, lip liner or hair color option and generates the appropriate responses.
 
@@ -1982,6 +1982,12 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
         "vto selfie": handle_vto_selfie,
         "else": handle_else_condition,
     }
+    
+    params = {
+        'handle_style_try_on': {'last_hair_type': last_hair_type, 'feats': feats},
+        'handle_plus_color_options': {'last_vto_type': last_vto_type, 'feats': feats},
+        'handle_recs_selfie': {'last_rec_type': last_rec_type}
+    }
 
     # For each keyword and handler in the handlers
     for keyword, handler in handlers.items():
@@ -1991,7 +1997,7 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
 
         # If the keyword is the stripped text
         elif keyword == stripped_text:
-            response_list = handler(stripped_text, number, messageId, response_list)
+            response_list = handler(stripped_text, number, messageId, response_list, **params[handler])
             
         # If the keyword is the text
         elif keyword == text:
