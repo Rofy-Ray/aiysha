@@ -1225,7 +1225,7 @@ def handle_else_condition(
     number: str,
     messageId: str,
     response_list: List[str],
-    chat_history: List[Tuple]) -> tuple(List[str], List[Tuple]):
+    chat_history: List[Tuple]) -> Tuple[List[str], List[Tuple]]:
     """
     This function handles the case where the input text does not match any expected conditions and generates the appropriate responses.
 
@@ -1237,7 +1237,8 @@ def handle_else_condition(
     chat_history (List[Tuple]): A list of tuples containing the chat history.
 
     Returns:
-    List[str]: The updated list of responses.
+    # List[str]: The updated list of responses.
+    Tuple[List[str], List[Tuple]]: The updated list of responses and the conversation history.
     """
     model_res = get_model_response(text)
     body = model_res[0]
@@ -1252,7 +1253,7 @@ def handle_else_condition(
     # Add the text message to the list of responses
     response_list.append(data)
 
-    # Return the updated list of responses
+    # Return the updated list of responses and chat history
     return response_list, convo_history
 
 
