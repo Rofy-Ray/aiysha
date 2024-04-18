@@ -2050,6 +2050,9 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
             res = handle_else_condition(text, number, messageId, response_list, chat_history)
             response_list = res[0]
             chat_history = res[1]
+            
+        # If one of the above conditions is met, break the loop
+        break
 
     # For each item in the list of responses, send a WhatsApp message
     for item in response_list:
