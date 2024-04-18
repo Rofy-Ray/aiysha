@@ -1225,7 +1225,7 @@ def handle_else_condition(
     number: str,
     messageId: str,
     response_list: List[str],
-    chat_history: List[Tuple]) -> Tuple(List[str], List[Tuple]):
+    chat_history: List[Tuple]) -> tuple(List[str], List[Tuple]):
     """
     This function handles the case where the input text does not match any expected conditions and generates the appropriate responses.
 
