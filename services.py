@@ -1918,9 +1918,6 @@ last_hair_type = {}
 # A dictionary to store the company names and products for each number
 recs_data = {"company_names": [], "company_products": {}}
 
-# Initialize the list of chat history
-chat_history = []
-
 
 def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: str, last_vto_type: Dict[str, List[str]], recs_data: Dict[str, List[str]], feats: Dict[str, Dict[str, Dict[str, str]]]) -> None:
     """
@@ -1947,6 +1944,9 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
 
     # Initialize the list of responses
     response_list = []
+    
+    # Initialize the list of chat history
+    chat_history = []
 
     # Initialize the temporary files
     downloaded_temp_file = None
