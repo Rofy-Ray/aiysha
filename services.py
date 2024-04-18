@@ -17,6 +17,7 @@ from reportlab.pdfgen import canvas
 import configparser
 from dotenv import load_dotenv
 from data import greetings, all_image_options, plus_color_options
+from llama import get_model_response
 
 # Load environment variables from .env file
 load_dotenv()
@@ -514,7 +515,7 @@ def follow_up(number: str, messageId: str) -> str:
     str: A JSON string representing the WhatsApp button reply message.
     """
     # Define the body, footer, and options of the message
-    body = "You were absolutely dazzling! But the show must go on, right? Is there a next act in your personal style saga that I can assist with? 🌟🎭✨"
+    body = "Your radiance was truly captivating! As the curtain rises on the next chapter of your style journey, can I assist in crafting your upcoming show-stopping look? 🌟🎭✨"
     footer = "AIySha by roboMUA"
     options = ["✅ Yes, please.", "❌ No, thanks."]
 
@@ -1093,7 +1094,7 @@ def fetch_product_recs(
         company_products, company_names = fetch_prod_recs(edge_url, media_content)
 
         # Define the body, footer, and options of the message
-        body = "I have a lot of recommendations for you. Please choose one of the following companies to see their products that match your skin shade."
+        body = "I’m delighted to hear of your interest in exploring options tailored to your skin tone. To provide you with the most suitable recommendations, could you please select one of the following esteemed brands? Each offers a range of products designed to complement and enhance your unique beauty. 🌟"
         footer = "AIySha by roboMUA"
         options = [name.title() for name in company_names]
 
@@ -1199,7 +1200,7 @@ def handle_greetings(text: str, number: str, messageId: str, response_list: List
     List[str]: The updated list of responses.
     """
     # Define the body, footer, and options of the message
-    body = "Greetings, gorgeous!👋🏿 I'm AIySha, your roboMUA BFF. I'm here to make you look and feel fabulous. What can I do for you today?"
+    body = "Hello, there! I’m AIySha, your dedicated beauty ally. My mission is to elevate your beauty routine and ensure you feel extraordinary. How may I enhance your allure today? ✨"
     footer = "AIySha by roboMUA"
     options = ["💄 Product Recs", "🪞 Try-On"]
 
@@ -1219,7 +1220,12 @@ def handle_greetings(text: str, number: str, messageId: str, response_list: List
     return response_list
 
 
-def handle_else_condition(text: str, number: str, messageId: str, response_list: List[str]) -> List[str]:
+def handle_else_condition(
+    text: str,
+    number: str,
+    messageId: str,
+    response_list: List[str],
+    chat_history: List[Tuple]) -> Tuple(List[str], List[Tuple]):
     """
     This function handles the case where the input text does not match any expected conditions and generates the appropriate responses.
 
@@ -1228,21 +1234,26 @@ def handle_else_condition(text: str, number: str, messageId: str, response_list:
     number (str): The phone number of the recipient.
     messageId (str): The ID of the message.
     response_list (List[str]): A list of responses to be sent.
+    chat_history (List[Tuple]): A list of tuples containing the chat history.
 
     Returns:
     List[str]: The updated list of responses.
     """
+    model_res = get_model_response(text)
+    body = model_res[0]
+    convo_history = model_res[1]
+    
     # Create a text message suggesting to reset the conversation
     data = text_message(
         number,
-        "Oops, you lost me there. How about we switch gears and hit the reset button?",
+        body,
     )
 
     # Add the text message to the list of responses
     response_list.append(data)
 
     # Return the updated list of responses
-    return response_list
+    return response_list, convo_history
 
 
 def handle_product_recs(text: str, number: str, messageId: str, response_list: List[str]) -> List[str]:
@@ -1259,7 +1270,7 @@ def handle_product_recs(text: str, number: str, messageId: str, response_list: L
     List[str]: The updated list of responses.
     """
     # Define the body, footer, and options of the message
-    body = "Oh, I see you're feeling adventurous today. Ready to unleash your inner artist and transform your face into a masterpiece? Don't worry, I'll guide you through the process. What kind of look are you going for?"
+    body = "How thrilling to embrace your adventurous spirit! Let’s channel that energy into creating a stunning visage that reflects your inner creativity. I’m here to guide you every step of the way. Tell me, what vision do you have for your transformative look today? 🎨✨"
     footer = "AIySha by roboMUA"
     options = ["😀 Face", "☺️ Cheeks", "👤 Body"]
 
@@ -1289,7 +1300,7 @@ def handle_face(text: str, number: str, messageId: str, response_list: List[str]
     List[str]: The updated list of responses.
     """
     # Define the body, footer, and options of the message
-    body = "You know what they say, beauty is skin deep. But that doesn't mean you can't enhance it with some awesome products. Let me help you find the ones that suit your complexion. Which part of your face do you want to focus on first?"
+    body = "Indeed, true beauty resonates from within, yet there’s always room to highlight your natural allure with the right products. Allow me to assist you in selecting the perfect items to accentuate your complexion. Could you share which feature of your face you’d like to enhance first? 🌟"
     footer = "AIySha by roboMUA"
     options = ["🎨 Foundation", "🙈 Concealer", "💎 Setting Powder"]  # "🌟 Skin Tint",
 
@@ -1320,7 +1331,7 @@ def handle_cheeks(text: str, number: int, messageId: str, response_list: List[st
     """
     
     # Define the body of the message
-    body = "I see you're in the mood for some glam. Don't worry, I've got you covered. Whether you want to go for a natural look or a full-on diva, I'm here to help. So, what's the plan, Stan?"
+    body = "Your desire for glamour shines through, and rest assured, I’m here to support your vision. Whether you’re leaning towards a subtle, natural elegance or aiming for the dramatic flair of a diva, I’m at your service. What are your aspirations for today’s look? ✨"
     
     # Define the footer of the message
     footer = "AIySha by roboMUA"
@@ -1355,7 +1366,7 @@ def handle_body(text: str, number: int, messageId: str, response_list: List[str]
     """
     
     # Define the body of the message
-    body = "Well, well, well, if it isn't the beauty queen herself. Ready to dazzle the world with your fabulous face? Tell me, what kind of magic are we working with today?"
+    body = "Ah, the beauty sovereign graces us with her presence! Are you prepared to enchant the world with your splendid visage? Share with me, what sort of enchantment shall we conjure up for your look today? ✨"
     
     # Define the footer of the message
     footer = "AIySha by roboMUA"
@@ -1416,7 +1427,7 @@ def handle_vto(text: str, number: str, messageId: str, response_list: List[str])
     List[str]: The updated list of responses.
     """
     # Define the body, footer, and options of the message
-    body = "Awesome! Let's give you a new look with some digital magic. What kind of vibe are you going for?"
+    body = "Fantastic! We’re about to embark on a transformative journey with a touch of digital enchantment. Tell me, what ambiance are you aiming to capture with your new look? 🌟✨"
     footer = "AIySha by roboMUA"
     options = ["🪮 Hair", "👄 Lips"]
 
@@ -1446,7 +1457,7 @@ def handle_hair(text: str, number: str, messageId: str, response_list: List[str]
     List[str]: The updated list of responses.
     """
     # Define the body, footer, and options of the message
-    body = "Cool! Let's spice up your look with some hair color or style changes. What are you in the mood for?"
+    body = "Marvelous choice! Elevating your look with a fresh hair color or style can be truly transformative. Are you envisioning a bold new shade to make a statement, or perhaps a chic cut to redefine your style? Share your inspiration, and let’s craft a look that’s uniquely you. 🌈✨"
     footer = "AIySha by roboMUA"
     options = ["💈 Color Try-On", "🎀 Style Try-On"]
 
@@ -1476,7 +1487,7 @@ def handle_lips(text: str, number: str, messageId: str, response_list: List[str]
     List[str]: The updated list of responses.
     """
     # Define the body, footer, and options of the message
-    body = "O-kay! Looks like we’re mixing up our beauty stations. For lips that pop, are we thinking bold and daring with a fiery red, or classic chic with a nude shade? And don’t forget the lipliner – it’s the secret agent that keeps your lipstick from going rogue. 💄🕵️‍♀️✨"
+    body = "Absolutely, let’s revitalize your beauty routine! For lips that make a statement, are you feeling the boldness of a fiery red, or perhaps the understated elegance of a nude shade? Remember, a good lipliner is your ally—it ensures your lipstick stays precisely where it should. Ready to define your look? 💄✨"
     footer = "AIySha by roboMUA"
     options = ["💋 Lip Stick Try-On", "🫦 Lip Liner Try-On"]
 
@@ -1592,7 +1603,7 @@ def handle_yes_please(text: str, number: str, messageId: str, response_list: Lis
     List[str]: The updated list of responses.
     """
     # Define the body, footer, and options of the message
-    body = "You’re on a roll! It’s like we’ve got a magic wand for fun – just wave it and poof! What’s the next adventure you’d like to conjure up? 🪄✨"
+    body = "You’re truly in the spirit of transformation! With our virtual beauty wand at the ready, what new look or style would you like to bring to life? Let’s create some beauty magic together! 🪄✨"
     footer = "AIySha by roboMUA"
     options = ["💄 Product Recs", "🪞 Try-On"]
 
@@ -1741,7 +1752,7 @@ def handle_style_try_on(text: str, number: str, messageId: str, response_list: L
     last_hair_type.setdefault(number, []).append(text)
 
     # Define the body, footer, and options of the message
-    body = "Whoops, let’s steer our style compass towards the hair salon! Are we thinking a daring pixie cut, or perhaps flowing mermaid waves? Maybe even a color that screams ‘rockstar’? Let’s create a ‘hair-raising’ experience! 💇‍♀️🎨🤘"
+    body = "Navigating to the hair salon, it’s time to redefine your look! Shall we go bold with a daring pixie cut, embrace the romance of flowing mermaid waves, or perhaps choose a hue that embodies ‘rockstar’ vibes? Together, we’ll craft an experience that elevates your hair to new heights of style! 💇‍♀️🎨🤘"
     footer = "AIySha by roboMUA"
     options = [name.title() for name in feats[text].keys()]
 
@@ -1802,7 +1813,7 @@ def handle_plus_color_options(text: str, number: str, messageId: str, response_l
     last_vto_type.setdefault(number, []).append(text)
 
     # Define the body, footer, and options of the message
-    body = "Got it! It’s like we’re in a candy store of brands, and you’re about to pick the sweetest treat. So, which one makes you feel like a kid in a fashion wonderland? 🍭👗✨"
+    body = "Envision yourself in a boutique of beauty, surrounded by the finest brands, each offering a delightful selection to satisfy your style cravings. Which one captures your heart and transports you to a realm of fashion enchantment? 🍭👗✨"
     footer = "AIySha by roboMUA"
     options = [name.title() for name in feats[text].keys()]
 
@@ -1837,7 +1848,7 @@ def handle_vto_options(text: str, number: str, messageId: str, response_list: Li
     last_vto_type[number].append(text)
 
     # Define the body, footer, and options of the message
-    body = "Brilliant pick! It’s like choosing a superhero costume – so, which shade of awesome are we going for today? 🦸‍♂️🌈"
+    body = "Selecting the perfect shade is akin to donning a superhero’s cape—each color holds its own power and story. So, which hue will be your superpower today? Will it be a bold, confident red or perhaps a mysterious, deep blue? Let’s find the color that makes you feel invincible! 🦸‍♂️🌈"
     footer = "AIySha by roboMUA"
     options = [key.title() for key in feats[last_vto_type[number][0]][text].keys()]
 
@@ -1905,6 +1916,9 @@ last_hair_type = {}
 
 # A dictionary to store the company names and products for each number
 recs_data = {"company_names": [], "company_products": {}}
+
+# Initialize the list of chat history
+chat_history = []
 
 
 def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: str, last_vto_type: Dict[str, List[str]], recs_data: Dict[str, List[str]], feats: Dict[str, Dict[str, Dict[str, str]]]) -> None:
@@ -1980,7 +1994,7 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
         "company names": handle_company_names,
         "vto options": handle_vto_options,
         "vto selfie": handle_vto_selfie,
-        "else": handle_else_condition,
+        # "else": handle_else_condition,
     }
     
     params = {
@@ -2036,7 +2050,9 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
         break
     # If none of the above conditions are met, use the "else" handler
     else:
-        response_list = handlers["else"]
+        res = handle_else_condition(text, number, messageId, response_list, chat_history)
+        response_list = res[0]
+        chat_history = res[1]
 
     # For each item in the list of responses, send a WhatsApp message
     for item in response_list:
