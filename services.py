@@ -2007,18 +2007,18 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
     # For each keyword and handler in the handlers
     for keyword, handler in handlers.items():
         # If the keyword is "greetings" and the text is a greeting
-        if keyword == "greetings" and any(greeting == text for greeting in greetings):
+        if keyword == "greetings" and any(greeting in text for greeting in greetings):
             response_list = handler(text, number, messageId, response_list)
 
         # If the keyword is the stripped text
-        elif keyword == stripped_text:
+        elif keyword in stripped_text:
             if handler in params:
                 response_list = handler(stripped_text, number, messageId, response_list, **params[handler])
             else:
                 response_list = handler(stripped_text, number, messageId, response_list)
             
         # If the keyword is the text
-        elif keyword == text:
+        elif keyword in text:
             response_list = handler(text, number, response_list)
 
         # If the keyword is "digit text" and the text is a digit
@@ -2054,7 +2054,7 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
             chat_history = res[1]
 
         # If one of the above conditions is met, break the loop
-        break
+        # break
     # If none of the above conditions are met, use the "else" handler
     else:
         res = handle_else_condition(text, number, messageId, response_list, chat_history)
