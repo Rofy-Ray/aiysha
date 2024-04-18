@@ -1240,7 +1240,7 @@ def handle_else_condition(
     # List[str]: The updated list of responses.
     Tuple[List[str], List[Tuple]]: The updated list of responses and the conversation history.
     """
-    model_res = get_model_response(text)
+    model_res = get_model_response(text, chat_history)
     body = model_res[0]
     convo_history = model_res[1]
     
