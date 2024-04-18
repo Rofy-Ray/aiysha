@@ -2011,7 +2011,10 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
 
         # If the keyword is the stripped text
         elif keyword == stripped_text:
-            response_list = handler(stripped_text, number, messageId, response_list, **params[handler])
+            if handler in params:
+                response_list = handler(stripped_text, number, messageId, response_list, **params[handler])
+            else:
+                response_list = handler(stripped_text, number, messageId, response_list)
             
         # If the keyword is the text
         elif keyword == text:
