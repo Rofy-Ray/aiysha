@@ -28,7 +28,7 @@ def get_llama_response(input_data):
     endpoint = client.endpoint_path(
         project=PROJECT, location=LOCATION, endpoint=ENDPOINT_ID
     )
-    instances = [{"prompt": input_data, "max_tokens": 250}]
+    instances = [{"prompt": input_data, "max_tokens": 1000}]
     response = client.predict(endpoint=endpoint, instances=instances)
     return response.predictions
 
