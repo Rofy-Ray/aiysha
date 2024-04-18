@@ -2054,7 +2054,7 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
             chat_history = res[1]
 
         # If one of the above conditions is met, break the loop
-        # break
+        break
     # If none of the above conditions are met, use the "else" handler
     else:
         res = handle_else_condition(text, number, messageId, response_list, chat_history)
