@@ -1224,7 +1224,8 @@ def handle_else_condition(
     text: str,
     number: str,
     messageId: str,
-    response_list: List[str]) -> List[str]:
+    response_list: List[str],
+    chat_history: List[Tuple]) -> Tuple[List[str], List[Tuple]]:
     """
     This function handles the case where the input text does not match any expected conditions and generates the appropriate responses.
 
@@ -1239,21 +1240,22 @@ def handle_else_condition(
     # List[str]: The updated list of responses.
     Tuple[List[str], List[Tuple]]: The updated list of responses and the conversation history.
     """
-    # model_res = get_model_response(text, chat_history)
-    # body = model_res[0]
-    # convo_history = model_res[1]
+    model_res = get_model_response(text, chat_history)
+    body = model_res[0]
+    convo_history = model_res[1]
     
     # Create a text message suggesting to reset the conversation
     data = text_message(
         number,
-        "Oops! I didn’t get that. Can you please rephrase your question? 🤔",
+        body
+        # "Oops! I didn’t get that. Can you please rephrase your question? 🤔",
     )
 
     # Add the text message to the list of responses
     response_list.append(data)
 
     # Return the updated list of responses and chat history
-    return response_list
+    return response_list, chat_history
 
 
 def handle_product_recs(text: str, number: str, messageId: str, response_list: List[str]) -> List[str]:
@@ -2005,18 +2007,18 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
     # For each keyword and handler in the handlers
     for keyword, handler in handlers.items():
         # If the keyword is "greetings" and the text is a greeting
-        if keyword == "greetings" and any(greeting == text for greeting in greetings):
+        if keyword == "greetings" and any(greeting in text for greeting in greetings):
             response_list = handler(text, number, messageId, response_list)
 
         # If the keyword is the stripped text
-        elif keyword == stripped_text:
+        elif keyword in stripped_text:
             if handler in params:
                 response_list = handler(stripped_text, number, messageId, response_list, **params[handler])
             else:
                 response_list = handler(stripped_text, number, messageId, response_list)
             
         # If the keyword is the text
-        elif keyword == text:
+        elif keyword in text:
             response_list = handler(text, number, response_list)
 
         # If the keyword is "digit text" and the text is a digit
@@ -2054,7 +2056,10 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
             
         break
     else:
-        response_list = handle_else_condition(text, number, messageId, response_list)
+        # response_list = handle_else_condition(text, number, messageId, response_list)
+        res = handle_else_condition(text, number, messageId, response_list, chat_history)
+        response_list = res[0]
+        chat_history = res[1]
 
     # For each item in the list of responses, send a WhatsApp message
     for item in response_list:
