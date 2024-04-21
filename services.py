@@ -2048,11 +2048,11 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
         
         # If none of the above conditions are met, use the "else" handler
         else:
-            # continue
+            continue
             # response_list = handle_else_condition(text, number, messageId, response_list)
-            res = handle_else_condition(text, number, messageId, response_list, chat_history)
-            response_list = res[0]
-            chat_history = res[1]
+            # res = handle_else_condition(text, number, messageId, response_list, chat_history)
+            # response_list = res[0]
+            # chat_history = res[1]
             
         break
     else:
