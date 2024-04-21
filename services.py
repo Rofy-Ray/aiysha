@@ -2004,11 +2004,9 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
     
     # For each keyword and handler in the handlers
     for keyword, handler in handlers.items():
-        condition_met = False
         # If the keyword is "greetings" and the text is a greeting
         if keyword == "greetings" and any(greeting == text for greeting in greetings):
             response_list = handler(text, number, messageId, response_list)
-            condition_met = True
 
         # If the keyword is the stripped text
         elif keyword == stripped_text:
@@ -2016,31 +2014,26 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
                 response_list = handler(stripped_text, number, messageId, response_list, **params[handler])
             else:
                 response_list = handler(stripped_text, number, messageId, response_list)
-            condition_met = True
             
         # If the keyword is the text
         elif keyword == text:
             response_list = handler(text, number, response_list)
-            condition_met = True
 
         # If the keyword is "digit text" and the text is a digit
         elif keyword == "digit text" and text.isdigit():
             response_list = handler(text, number, messageId, numberId, response_list)
-            condition_met = True
 
         # If the keyword is "company names" and the text is a company name
         elif keyword == "company names" and any(
             option in text for option in recs_data["company_names"]
         ):
             response_list = handler(text, number, messageId, name, response_list)
-            condition_met = True
 
         # If the keyword is "vto options" and the text is a VTO option
         elif keyword == "vto options" and any(
             option in text for option in feats[last_vto_type[number][0]].keys()
         ):
             response_list = handler(text, number, messageId, response_list)
-            condition_met = True
 
         # If the keyword is "vto selfie" and the text is a VTO selfie option
         elif keyword == "vto selfie" and any(
@@ -2050,22 +2043,18 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
             ].keys()
         ):
             response_list = handler(text, number, response_list)
-            condition_met = True
         
         # If none of the above conditions are met, use the "else" handler
-        if not condition_met:
-            response_list = handle_else_condition(text, number, messageId, response_list)
-
-        # If one of the above conditions is met, break the loop
-        if condition_met:
-            break
-        
-        # If none of the above conditions are met, use the "else" handler
-        # else:
-        #     response_list = handle_else_condition(text, number, messageId, response_list)
+        else:
+            continue
+            # response_list = handle_else_condition(text, number, messageId, response_list)
             # res = handle_else_condition(text, number, messageId, response_list, chat_history)
             # response_list = res[0]
             # chat_history = res[1]
+            
+        break
+    else:
+        response_list = handle_else_condition(text, number, messageId, response_list)
 
     # For each item in the list of responses, send a WhatsApp message
     for item in response_list:
