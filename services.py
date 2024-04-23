@@ -1999,9 +1999,9 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
     }
     
     params = {
-        'handle_style_try_on': [last_hair_type, feats],
-        'handle_plus_color_options': [last_vto_type, feats],
-        'handle_recs_selfie': [last_rec_type]
+        handle_style_try_on: [last_hair_type, feats],
+        handle_plus_color_options: [last_vto_type, feats],
+        handle_recs_selfie: [last_rec_type]
     }
     
     # For each keyword and handler in the handlers
