@@ -1388,7 +1388,7 @@ def handle_body(text: str, number: int, messageId: str, response_list: List[str]
     return response_list
 
 
-def handle_recs_selfie(text: str, number: str, messageId: str, response_list: List[str], last_rec_type: Dict[str, str], *args, **kwargs) -> List[str]:
+def handle_recs_selfie(text: str, number: str, messageId: str, response_list: List[str], last_rec_type: Dict[str, str]) -> List[str]:
     """
     This function handles the case where the user is asked to take a selfie to be used to generate the appropriate recommendations.
 
@@ -1735,7 +1735,7 @@ def handle_company_names(text: str, number: str, messageId: str, name: str, resp
     return response_list
 
 
-def handle_style_try_on(text: str, number: str, messageId: str, response_list: List[str], last_hair_type: Dict[str, List[str]], feats: Dict[str, Dict[str, str]], *args, **kwargs) -> List[str]:
+def handle_style_try_on(text: str, number: str, messageId: str, response_list: List[str], last_hair_type: Dict[str, List[str]], feats: Dict[str, Dict[str, str]]) -> List[str]:
     """
     This function handles the case where the user wants to try on a virtual hair style and generates the appropriate responses.
 
@@ -1796,7 +1796,7 @@ def handle_style_selfie(text: str, number: str, response_list: List[str], last_h
     return response_list
 
 
-def handle_plus_color_options(text: str, number: str, messageId: str, response_list: List[str], last_vto_type: Dict[str, List[str]], feats: Dict[str, Dict[str, str]], *args, **kwargs) -> List[str]:
+def handle_plus_color_options(text: str, number: str, messageId: str, response_list: List[str], last_vto_type: Dict[str, List[str]], feats: Dict[str, Dict[str, str]]) -> List[str]:
     """
     This function handles the case where the user wants to try on a virtual lipstick, lip liner or hair color option and generates the appropriate responses.
 
