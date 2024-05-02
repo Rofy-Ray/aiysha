@@ -2005,57 +2005,92 @@ def manage_chatbot(text: str, number: str, messageId: str, name: str, numberId: 
         handle_style_selfie: [last_hair_type]
     }
     
-    # For each keyword and handler in the handlers
-    for keyword, handler in handlers.items():
-        # If the keyword is "greetings" and the text is a greeting
-        if keyword == "greetings" and any(greeting in text for greeting in greetings):
-            response_list = handler(text, number, messageId, response_list)
+    def is_greeting(text):
+        return any(greeting in text for greeting in greetings)
 
-        # If the keyword is the stripped text
-        elif keyword == stripped_text:
-            if handler in params:
-                response_list = handler(stripped_text, number, messageId, response_list, *params[handler])
-            else:
-                response_list = handler(stripped_text, number, messageId, response_list)
-            
-        # If the keyword is the text
-        elif keyword == text:
-            response_list = handler(text, number, response_list)
+    def is_matching_keyword(keyword, text, stripped_text):
+        return keyword in (text, stripped_text)
 
-        # If the keyword is "digit text" and the text is a digit
-        elif keyword == "digit text" and text.isdigit():
-            response_list = handler(text, number, messageId, numberId, response_list)
+    def is_special_condition(keyword, text, number):
+        if keyword == "digit text":
+            return text.isdigit()
+        elif keyword == "company names":
+            return any(option in text for option in recs_data["company_names"])
+        elif keyword == "vto options":
+            return any(option in text for option in feats[last_vto_type[number][0]].keys())
+        elif keyword == "vto selfie":
+            return any(option in text for option in feats[last_vto_type[number][0]][last_vto_type[number][-1]].keys())
+        return False
 
-        # If the keyword is "company names" and the text is a company name
-        elif keyword == "company names" and any(
-            option in text for option in recs_data["company_names"]
-        ):
-            response_list = handler(text, number, messageId, name, response_list)
-
-        # If the keyword is "vto options" and the text is a VTO option
-        elif keyword == "vto options" and any(
-            option in text for option in feats[last_vto_type[number][0]].keys()
-        ):
-            response_list = handler(text, number, messageId, response_list)
-
-        # If the keyword is "vto selfie" and the text is a VTO selfie option
-        elif keyword == "vto selfie" and any(
-            option in text
-            for option in feats[last_vto_type[number][0]][
-                last_vto_type[number][-1]
-            ].keys()
-        ):
-            response_list = handler(text, number, response_list)
-        
-        # If none of the above conditions are met, use the "else" handler
+    def handle_keyword(handler, text, number, messageId, response_list, *params):
+        if handler in params:
+            return handler(text, number, messageId, response_list, *params[handler])
         else:
-            continue
-            # response_list = handle_else_condition(text, number, messageId, response_list)
-            # res = handle_else_condition(text, number, messageId, response_list, chat_history)
-            # response_list = res[0]
-            # chat_history = res[1]
+            return handler(text, number, messageId, response_list)
+
+    for keyword, handler in handlers.items():
+        if keyword == "greetings" and is_greeting(text):
+            response_list = handle_keyword(handler, text, number, messageId, response_list)
+        elif is_matching_keyword(keyword, text, stripped_text):
+            response_list = handle_keyword(handler, text, number, messageId, response_list, *params.get(handler, []))
+        elif is_special_condition(keyword, text, number):
+            response_list = handler(text, number, messageId, response_list)
+        else:
+            res = handle_else_condition(text, number, messageId, response_list, chat_history)
+            response_list = res[0]
+            chat_history = res[1]
+    
+    # # For each keyword and handler in the handlers
+    # for keyword, handler in handlers.items():
+    #     # If the keyword is "greetings" and the text is a greeting
+    #     if keyword == "greetings" and any(greeting in text for greeting in greetings):
+    #         response_list = handler(text, number, messageId, response_list)
+
+    #     # If the keyword is the stripped text
+    #     elif keyword == stripped_text:
+    #         if handler in params:
+    #             response_list = handler(stripped_text, number, messageId, response_list, *params[handler])
+    #         else:
+    #             response_list = handler(stripped_text, number, messageId, response_list)
             
-        break
+    #     # If the keyword is the text
+    #     elif keyword == text:
+    #         response_list = handler(text, number, response_list)
+
+    #     # If the keyword is "digit text" and the text is a digit
+    #     elif keyword == "digit text" and text.isdigit():
+    #         response_list = handler(text, number, messageId, numberId, response_list)
+
+    #     # If the keyword is "company names" and the text is a company name
+    #     elif keyword == "company names" and any(
+    #         option in text for option in recs_data["company_names"]
+    #     ):
+    #         response_list = handler(text, number, messageId, name, response_list)
+
+    #     # If the keyword is "vto options" and the text is a VTO option
+    #     elif keyword == "vto options" and any(
+    #         option in text for option in feats[last_vto_type[number][0]].keys()
+    #     ):
+    #         response_list = handler(text, number, messageId, response_list)
+
+    #     # If the keyword is "vto selfie" and the text is a VTO selfie option
+    #     elif keyword == "vto selfie" and any(
+    #         option in text
+    #         for option in feats[last_vto_type[number][0]][
+    #             last_vto_type[number][-1]
+    #         ].keys()
+    #     ):
+    #         response_list = handler(text, number, response_list)
+        
+    #     # If none of the above conditions are met, use the "else" handler
+    #     # else:
+    #     #     continue
+    #         # response_list = handle_else_condition(text, number, messageId, response_list)
+    #         # res = handle_else_condition(text, number, messageId, response_list, chat_history)
+    #         # response_list = res[0]
+    #         # chat_history = res[1]
+            
+    #     # break
     # else:
     #     # response_list = handle_else_condition(text, number, messageId, response_list)
     #     res = handle_else_condition(text, number, messageId, response_list, chat_history)
