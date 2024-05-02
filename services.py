@@ -2012,7 +2012,7 @@ def get_variables():
 
 
 def is_greeting(text):
-    return any(greeting in text for greeting in greetings)
+    return any(greeting == text for greeting in greetings)
 
 
 def is_matching_keyword(keyword, text, stripped_text):
