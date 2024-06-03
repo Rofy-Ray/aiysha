@@ -2150,85 +2150,85 @@ def manage_chatbot(
         handle_style_selfie: [last_hair_type],
     }
 
-    for keyword, handler in handlers.items():
-        if keyword == "greetings" and is_greeting(text):
-            response_list = handle_keyword(
-                handler, text, number, messageId, response_list
-            )
-        elif is_matching_keyword(keyword, text, stripped_text):
-            response_list = handle_keyword(
-                handler,
-                text,
-                number,
-                messageId,
-                response_list,
-                *params.get(handler, []),
-            )
-        elif is_special_condition(keyword, text, number):
-            response_list = handler(text, number, messageId, response_list)
-        else:
-            res = handle_else_condition(
-                text, number, messageId, response_list, chat_history
-            )
-            response_list = res[0]
-            chat_history = res[1]
-
-    # # For each keyword and handler in the handlers
     # for keyword, handler in handlers.items():
-    #     # If the keyword is "greetings" and the text is a greeting
-    #     if keyword == "greetings" and any(greeting in text for greeting in greetings):
+    #     if keyword == "greetings" and is_greeting(text):
+    #         response_list = handle_keyword(
+    #             handler, text, number, messageId, response_list
+    #         )
+    #     elif is_matching_keyword(keyword, text, stripped_text):
+    #         response_list = handle_keyword(
+    #             handler,
+    #             text,
+    #             number,
+    #             messageId,
+    #             response_list,
+    #             *params.get(handler, []),
+    #         )
+    #     elif is_special_condition(keyword, text, number):
     #         response_list = handler(text, number, messageId, response_list)
+    #     else:
+    #         res = handle_else_condition(
+    #             text, number, messageId, response_list, chat_history
+    #         )
+    #         response_list = res[0]
+    #         chat_history = res[1]
 
-    #     # If the keyword is the stripped text
-    #     elif keyword == stripped_text:
-    #         if handler in params:
-    #             response_list = handler(stripped_text, number, messageId, response_list, *params[handler])
-    #         else:
-    #             response_list = handler(stripped_text, number, messageId, response_list)
+    # For each keyword and handler in the handlers
+    for keyword, handler in handlers.items():
+        # If the keyword is "greetings" and the text is a greeting
+        if keyword == "greetings" and any(greeting in text for greeting in greetings):
+            response_list = handler(text, number, messageId, response_list)
 
-    #     # If the keyword is the text
-    #     elif keyword == text:
-    #         response_list = handler(text, number, response_list)
+        # If the keyword is the stripped text
+        elif keyword == stripped_text:
+            if handler in params:
+                response_list = handler(stripped_text, number, messageId, response_list, *params[handler])
+            else:
+                response_list = handler(stripped_text, number, messageId, response_list)
 
-    #     # If the keyword is "digit text" and the text is a digit
-    #     elif keyword == "digit text" and text.isdigit():
-    #         response_list = handler(text, number, messageId, numberId, response_list)
+        # If the keyword is the text
+        elif keyword == text:
+            response_list = handler(text, number, response_list)
 
-    #     # If the keyword is "company names" and the text is a company name
-    #     elif keyword == "company names" and any(
-    #         option in text for option in recs_data["company_names"]
-    #     ):
-    #         response_list = handler(text, number, messageId, name, response_list)
+        # If the keyword is "digit text" and the text is a digit
+        elif keyword == "digit text" and text.isdigit():
+            response_list = handler(text, number, messageId, numberId, response_list)
 
-    #     # If the keyword is "vto options" and the text is a VTO option
-    #     elif keyword == "vto options" and any(
-    #         option in text for option in feats[last_vto_type[number][0]].keys()
-    #     ):
-    #         response_list = handler(text, number, messageId, response_list)
+        # If the keyword is "company names" and the text is a company name
+        elif keyword == "company names" and any(
+            option in text for option in recs_data["company_names"]
+        ):
+            response_list = handler(text, number, messageId, name, response_list)
 
-    #     # If the keyword is "vto selfie" and the text is a VTO selfie option
-    #     elif keyword == "vto selfie" and any(
-    #         option in text
-    #         for option in feats[last_vto_type[number][0]][
-    #             last_vto_type[number][-1]
-    #         ].keys()
-    #     ):
-    #         response_list = handler(text, number, response_list)
+        # If the keyword is "vto options" and the text is a VTO option
+        elif keyword == "vto options" and any(
+            option in text for option in feats[last_vto_type[number][0]].keys()
+        ):
+            response_list = handler(text, number, messageId, response_list)
 
-    #     # If none of the above conditions are met, use the "else" handler
-    #     # else:
-    #     #     continue
-    #         # response_list = handle_else_condition(text, number, messageId, response_list)
-    #         # res = handle_else_condition(text, number, messageId, response_list, chat_history)
-    #         # response_list = res[0]
-    #         # chat_history = res[1]
+        # If the keyword is "vto selfie" and the text is a VTO selfie option
+        elif keyword == "vto selfie" and any(
+            option in text
+            for option in feats[last_vto_type[number][0]][
+                last_vto_type[number][-1]
+            ].keys()
+        ):
+            response_list = handler(text, number, response_list)
 
-    #     # break
-    # else:
-    #     # response_list = handle_else_condition(text, number, messageId, response_list)
-    #     res = handle_else_condition(text, number, messageId, response_list, chat_history)
-    #     response_list = res[0]
-    #     chat_history = res[1]
+        # If none of the above conditions are met, use the "else" handler
+        # else:
+        #     continue
+            # response_list = handle_else_condition(text, number, messageId, response_list)
+            # res = handle_else_condition(text, number, messageId, response_list, chat_history)
+            # response_list = res[0]
+            # chat_history = res[1]
+
+        # break
+    else:
+        # response_list = handle_else_condition(text, number, messageId, response_list)
+        res = handle_else_condition(text, number, messageId, response_list, chat_history)
+        response_list = res[0]
+        chat_history = res[1]
 
     # For each item in the list of responses, send a WhatsApp message
     for item in response_list:
