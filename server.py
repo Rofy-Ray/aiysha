@@ -96,14 +96,15 @@ def process_requests():
                 
                 # Calling the 'get_variables' function from the 'services' module.
                 # This function returns the variables 'last_vto_type', 'recs_data', and 'feats'.
-                last_vto_type, recs_data, feats = services.get_variables()
+                
+                # last_vto_type, recs_data, feats = services.get_variables()
 
                 # Calling the 'manage_chatbot' function from the 'services' module.
                 # This function requires eight arguments: 'text', 'number', 'messageId', 'name', 'numberId', 'last_vto_type', 'recs_data', and 'feats'.
                 # The variables 'last_vto_type', 'recs_data', and 'feats' obtained from the 'get_variables' function are passed as arguments.
                 # Manage the chatbot with the text, number, message ID, name, number ID, last VTO type, company names and products, and features.
                 # This function handles all of the chatbot's logic.
-                services.manage_chatbot(text, number, messageId, name, numberId, last_vto_type, recs_data, feats)
+                services.manage_chatbot(text, number, messageId, name, numberId) #last_vto_type, recs_data, feats)
         # If an exception occurs, log the error
         except Exception as e:
             logging.error("Error processing message: {}".format(e))

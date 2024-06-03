@@ -2062,9 +2062,9 @@ def manage_chatbot(
     messageId: str,
     name: str,
     numberId: str,
-    last_vto_type: Dict[str, List[str]],
-    recs_data: Dict[str, List[str]],
-    feats: Dict[str, Dict[str, Dict[str, str]]],
+    # last_vto_type: Dict[str, List[str]],
+    # recs_data: Dict[str, List[str]],
+    # feats: Dict[str, Dict[str, Dict[str, str]]],
 ) -> None:
     """
     This function manages the chatbot by handling different types of user inputs and generating the appropriate responses.
