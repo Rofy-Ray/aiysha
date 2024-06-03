@@ -71,7 +71,7 @@ def process_requests():
         # Get a request from the queue
         body = request_queue.get()
         
-        logging.info('INCOMING BODY >>>>> ', body)
+        logging.info('INCOMING BODY >>>>> {}'.format(body))
 
         # Try to process the request
         try:
@@ -96,11 +96,11 @@ def process_requests():
                 # Get the text from the message
                 text = services.get_whatsapp_message(message)
                 
-                logging.info('TEXT >>>>> ', text)
-                logging.info('NUMBER >>>>> ', number)
-                logging.info('MESSAGE ID >>>>> ', messageId)
-                logging.info('NAME >>>>> ', name)
-                logging.info('NUMBER ID >>>>> ', numberId)
+                logging.info('TEXT >>>>> {}'.format(text))
+                logging.info('NUMBER >>>>> {}'.format(number))
+                logging.info('MESSAGE ID >>>>> {}'.format(messageId))
+                logging.info('NAME >>>>> {}'.format(name))
+                logging.info('NUMBER ID >>>>> {}'.format(numberId))
                 
                 # Calling the 'get_variables' function from the 'services' module.
                 # This function returns the variables 'last_vto_type', 'recs_data', and 'feats'.
