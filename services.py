@@ -2084,9 +2084,13 @@ def manage_chatbot(
     """
     # Convert the text to lower case
     text = text.lower()
+    
+    logging.info('LOWER TEXT >>>>> {}'.format(text))
 
     # Remove emojis and strip the text
     stripped_text = remove_emoji_and_strip(text)
+    
+    logging.info('STRIPPED TEXT >>>>> {}'.format(stripped_text))
 
     # Initialize the list of responses
     response_list = []
