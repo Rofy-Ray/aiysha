@@ -2179,9 +2179,10 @@ def manage_chatbot(
 
     # For each keyword and handler in the handlers
     for keyword, handler in handlers.items():
-        logging.info('INSIDE THE LOGIC...')
+        logging.info('INSIDE THE FLOW...')
         # If the keyword is "greetings" and the text is a greeting
         if keyword == "greetings" and any(greeting in text for greeting in greetings):
+            logging.info('GREETINGS TRUE!')
             response_list = handler(text, number, messageId, response_list)
 
         # If the keyword is the stripped text
