@@ -1249,7 +1249,7 @@ def handle_greetings(
     # reply_reaction = reply_reaction_message(number, messageId, "❤️")
 
     # Add the reply reaction and button reply messages to the list of responses
-    response_list.append(reply_reaction)
+    # response_list.append(reply_reaction)
     response_list.append(reply_button_data)
     
     logging.info('SENDING GREETINGS RESULTS...{}'.format(response_list))
