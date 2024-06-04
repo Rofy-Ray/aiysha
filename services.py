@@ -132,6 +132,8 @@ def send_whatsapp_message(data: str) -> Tuple[str, int]:
 
         # Wait for 5 seconds to ensure the message is sent
         time.sleep(5)
+        
+        logging.info('MESSAGE SENT!')
 
         # Return a success message and status code
         return "message sent!", 200
@@ -2242,6 +2244,7 @@ def manage_chatbot(
 
     # For each item in the list of responses, send a WhatsApp message
     for item in response_list:
+        logging.info('ABOUT TO SEND RESPONSE...')
         send_whatsapp_message(item)
 
     # If the downloaded temporary file exists, remove it
