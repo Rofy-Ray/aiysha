@@ -105,6 +105,7 @@ def send_whatsapp_message(data: str) -> Tuple[str, int]:
     Returns:
     Tuple[str, int]: A tuple containing a message about the status of the operation and an HTTP status code.
     """
+    logging.info('SENDING THIS DATA >>> {}'.format(data))
     try:
         # Get the WhatsApp token and environment variables
         whatsapp_token = os.getenv("WHATSAPP_TOKEN")
@@ -1231,6 +1232,7 @@ def handle_greetings(
     Returns:
     List[str]: The updated list of responses.
     """
+    logging.info('ENTERED GREETINGS FUNCTION...')
     # Define the body, footer, and options of the message
     body = "Hello, there! I’m AIySha, your dedicated beauty ally. My mission is to elevate your beauty routine and ensure you feel extraordinary. How may I enhance your allure today? ✨"
     footer = "AIySha by roboMUA"
@@ -1247,6 +1249,8 @@ def handle_greetings(
     # Add the reply reaction and button reply messages to the list of responses
     response_list.append(reply_reaction)
     response_list.append(reply_button_data)
+    
+    logging.info('SENDING GREETINGS RESULTS...')
 
     # Return the updated list of responses
     return response_list
