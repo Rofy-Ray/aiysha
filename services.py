@@ -1250,7 +1250,7 @@ def handle_greetings(
     response_list.append(reply_reaction)
     response_list.append(reply_button_data)
     
-    logging.info('SENDING GREETINGS RESULTS...')
+    logging.info('SENDING GREETINGS RESULTS...{}'.format(response_list))
 
     # Return the updated list of responses
     return response_list
