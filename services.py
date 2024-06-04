@@ -2228,19 +2228,19 @@ def manage_chatbot(
             response_list = handler(text, number, response_list)
 
         # If none of the above conditions are met, use the "else" handler
-        # else:
-        #     continue
-            # response_list = handle_else_condition(text, number, messageId, response_list)
-            # res = handle_else_condition(text, number, messageId, response_list, chat_history)
-            # response_list = res[0]
-            # chat_history = res[1]
+        else:
+            continue
+            response_list = handle_else_condition(text, number, messageId, response_list)
+            res = handle_else_condition(text, number, messageId, response_list, chat_history)
+            response_list = res[0]
+            chat_history = res[1]
 
-        # break
-    else:
-        # response_list = handle_else_condition(text, number, messageId, response_list)
-        res = handle_else_condition(text, number, messageId, response_list, chat_history)
-        response_list = res[0]
-        chat_history = res[1]
+        break
+    # else:
+    #     # response_list = handle_else_condition(text, number, messageId, response_list)
+    #     res = handle_else_condition(text, number, messageId, response_list, chat_history)
+    #     response_list = res[0]
+    #     chat_history = res[1]
 
     # For each item in the list of responses, send a WhatsApp message
     for item in response_list:
