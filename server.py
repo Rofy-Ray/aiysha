@@ -94,7 +94,7 @@ def process_requests():
                     logging.info('SETTING UP TEMPLATE MESSAGE...')
 
                     # Call the function with the recipient ID
-                    services.send_robotemp(number, "ytemp")
+                    services.send_robotemp(number, "hello_world")
                 else:
                     # If the value contains messages and contacts, process this request
                     if "messages" in value and "contacts" in value:
