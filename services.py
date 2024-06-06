@@ -168,7 +168,10 @@ def template_message(number: str, template_name: str) -> str:
             "name": template_name,
             "language": {
             "code": "en_US"
-            }
+            },
+            "components": [
+                {"type": "text", "text": "Hello & welcome! Say hello and AIySha will be with you shortly. Thanks!."}
+            ],
         }
     }
     
