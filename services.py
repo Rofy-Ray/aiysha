@@ -145,6 +145,51 @@ def send_whatsapp_message(data: str) -> Tuple[str, int]:
         return f"Other error occurred: {err}", 403
 
 
+def template_message(number: str, template_id: str) -> str:
+    """
+    This function creates a JSON string for a WhatsApp template message.
+    
+    Parameters:
+    number (str): The phone number of the recipient.
+    
+    Returns:
+    str: A JSON string representing the WhatsApp template message.
+    """
+    # Create a dictionary with the WhatsApp template details
+    data_dict = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": number,
+        "type": "template",
+        "template": {
+            "id": template_id,
+            "language": {
+            "code": "en_US"
+            }
+        }
+    }
+    
+    # Convert the dictionary to a JSON string
+    data = json.dumps(data_dict)
+
+    return data
+
+
+def send_robotemp(number: str, template_id: str) -> None:
+    """
+    This function handles sending template message and generates the appropriate response.
+
+    Parameters:
+    number (str): The phone number of the recipient.
+
+    Returns:
+    None.
+    """
+    temp_msg = template_message(number, template_id)
+    
+    send_whatsapp_message(temp_msg)
+    
+    
 def text_message(number: str, text: str) -> str:
     """
     This function creates a JSON string for a WhatsApp text message.

@@ -72,35 +72,75 @@ def process_requests():
         body = request_queue.get()
         
         logging.info('INCOMING BODY >>>>> {}'.format(body))
-
+        
         # Try to process the request
         try:
             # Get the entry, changes, and value from the request body
             entry = body["entry"][0]
             changes = entry["changes"][0]
             value = changes["value"]
-
-            # If the value contains statuses, skip this request
+            
+            # Check if the value contains statuses
             if "statuses" in value:
-                continue
-            # If the value contains messages and contacts, process this request
-            elif "messages" in value and "contacts" in value:
-                # Get the number ID, message, number, message ID, contacts, and name from the value
-                numberId = value["metadata"]["phone_number_id"]
-                message = value["messages"][0]
-                number = message["from"]
-                messageId = message["id"]
-                contacts = value["contacts"][0]
-                name = contacts["profile"]["name"]
+                # Get the status and error code
+                status = value["statuses"][0]
+                error_code = status.get("errors", [{}])[0].get("code")
+
+                # Check if the status is failed and error code is 131047
+                if status["status"] == "failed" and error_code == 131047:
+                    # Get the recipient ID (phone number)
+                    number = status["recipient_id"]
+
+                    # Call the function with the recipient ID
+                    services.send_robotemp(number, "845132007381510")
+                else:
+                    # If the value contains messages and contacts, process this request
+                    if "messages" in value and "contacts" in value:
+                        # Get the number ID, message, number, message ID, contacts, and name from the value
+                        numberId = value["metadata"]["phone_number_id"]
+                        message = value["messages"][0]
+                        number = message["from"]
+                        messageId = message["id"]
+                        contacts = value["contacts"][0]
+                        name = contacts["profile"]["name"]
+
+                        text = services.get_whatsapp_message(message)
+                        services.manage_chatbot(text, number, messageId, name, numberId)
+            else:
+                # If the value contains messages and contacts, process this request
+                if "messages" in value and "contacts" in value:
+                    # Get the number ID, message, number, message ID, contacts, and name from the value
+                    numberId = value["metadata"]["phone_number_id"]
+                    message = value["messages"][0]
+                    number = message["from"]
+                    messageId = message["id"]
+                    contacts = value["contacts"][0]
+                    name = contacts["profile"]["name"]
+
+                    text = services.get_whatsapp_message(message)
+                    services.manage_chatbot(text, number, messageId, name, numberId)
+
+            # # If the value contains statuses, skip this request
+            # if "statuses" in value:
+            #     continue
+            # # If the value contains messages and contacts, process this request
+            # elif "messages" in value and "contacts" in value:
+            #     # Get the number ID, message, number, message ID, contacts, and name from the value
+            #     numberId = value["metadata"]["phone_number_id"]
+            #     message = value["messages"][0]
+            #     number = message["from"]
+            #     messageId = message["id"]
+            #     contacts = value["contacts"][0]
+            #     name = contacts["profile"]["name"]
                                 
                 # Get the text from the message
-                text = services.get_whatsapp_message(message)
+                # text = services.get_whatsapp_message(message)
                 
-                logging.info('TEXT >>>>> {}'.format(text))
-                logging.info('NUMBER >>>>> {}'.format(number))
-                logging.info('MESSAGE ID >>>>> {}'.format(messageId))
-                logging.info('NAME >>>>> {}'.format(name))
-                logging.info('NUMBER ID >>>>> {}'.format(numberId))
+                # logging.info('TEXT >>>>> {}'.format(text))
+                # logging.info('NUMBER >>>>> {}'.format(number))
+                # logging.info('MESSAGE ID >>>>> {}'.format(messageId))
+                # logging.info('NAME >>>>> {}'.format(name))
+                # logging.info('NUMBER ID >>>>> {}'.format(numberId))
                 
                 # Calling the 'get_variables' function from the 'services' module.
                 # This function returns the variables 'last_vto_type', 'recs_data', and 'feats'.
@@ -112,7 +152,7 @@ def process_requests():
                 # The variables 'last_vto_type', 'recs_data', and 'feats' obtained from the 'get_variables' function are passed as arguments.
                 # Manage the chatbot with the text, number, message ID, name, number ID, last VTO type, company names and products, and features.
                 # This function handles all of the chatbot's logic.
-                services.manage_chatbot(text, number, messageId, name, numberId) #last_vto_type, recs_data, feats)
+                # services.manage_chatbot(text, number, messageId, name, numberId) #last_vto_type, recs_data, feats)
         # If an exception occurs, log the error
         except Exception as e:
             logging.error("Error processing message: {}".format(e))
