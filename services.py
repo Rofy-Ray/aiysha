@@ -167,7 +167,7 @@ def template_message(number: str, template_name: str) -> str:
         "template": {
             "name": template_name,
             "language": {
-            "code": "en_US"
+            "code": "en_UK"
             },
             "components": [
                 {
