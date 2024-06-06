@@ -155,6 +155,7 @@ def template_message(number: str, template_id: str) -> str:
     Returns:
     str: A JSON string representing the WhatsApp template message.
     """
+    logging.info('PUTTING TOGETHER TEMPLATE MESSAGE...')
     # Create a dictionary with the WhatsApp template details
     data_dict = {
         "messaging_product": "whatsapp",
@@ -171,6 +172,8 @@ def template_message(number: str, template_id: str) -> str:
     
     # Convert the dictionary to a JSON string
     data = json.dumps(data_dict)
+    
+    logging.info('RETURNING TEMPLATE MESSAGE...')
 
     return data
 
@@ -186,6 +189,8 @@ def send_robotemp(number: str, template_id: str) -> None:
     None.
     """
     temp_msg = template_message(number, template_id)
+    
+    logging.info('SENDING TEMPLATE MESSAGE...')
     
     send_whatsapp_message(temp_msg)
     

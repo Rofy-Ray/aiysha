@@ -90,6 +90,8 @@ def process_requests():
                 if status["status"] == "failed" and error_code == 131047:
                     # Get the recipient ID (phone number)
                     number = status["recipient_id"]
+                    
+                    logging.info('SETTING UP TEMPLATE MESSAGE...')
 
                     # Call the function with the recipient ID
                     services.send_robotemp(number, "845132007381510")
