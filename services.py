@@ -147,7 +147,7 @@ def send_whatsapp_message(data: str) -> Tuple[str, int]:
         return f"Other error occurred: {err}", 403
 
 
-def template_message(number: str, template_id: str) -> str:
+def template_message(number: str, template_name: str) -> str:
     """
     This function creates a JSON string for a WhatsApp template message.
     
@@ -165,7 +165,7 @@ def template_message(number: str, template_id: str) -> str:
         "to": number,
         "type": "template",
         "template": {
-            "id": template_id,
+            "name": template_name,
             "language": {
             "code": "en_US"
             }
@@ -180,7 +180,7 @@ def template_message(number: str, template_id: str) -> str:
     return data
 
 
-def send_robotemp(number: str, template_id: str) -> None:
+def send_robotemp(number: str, template_name: str) -> None:
     """
     This function handles sending template message and generates the appropriate response.
 
@@ -190,7 +190,7 @@ def send_robotemp(number: str, template_id: str) -> None:
     Returns:
     None.
     """
-    temp_msg = template_message(number, template_id)
+    temp_msg = template_message(number, template_name)
     
     logging.info('SENDING TEMPLATE MESSAGE...')
     
