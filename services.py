@@ -127,7 +127,7 @@ def send_whatsapp_message(data: str) -> Tuple[str, int]:
         # Send the POST request to the WhatsApp URL
         response = requests.post(whatsapp_url, headers=headers, data=data)
         
-        logging.info('RESPONSE FROM SERVER >>> {}'.format(response))
+        logging.info('RESPONSE FROM SERVER >>> {}'.format(response.json()))
 
         # If the request was unsuccessful, raise an exception
         response.raise_for_status()
