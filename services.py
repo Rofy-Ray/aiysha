@@ -163,7 +163,7 @@ def template_message(number: str, template_name: str) -> str:
     # Create a dictionary with the WhatsApp template details
     data_dict = {
         "messaging_product": "whatsapp",
-        "recipient_type": "individual",
+        # "recipient_type": "individual",
         "to": number,
         "type": "template",
         "template": {
