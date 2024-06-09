@@ -170,12 +170,7 @@ def template_message(number: str, template_name: str) -> str:
             "name": template_name,
             "language": {
             "code": "en_US"
-            },
-            "components": [
-                {
-                    "type": "body"
-                }
-            ]
+            }
         }
     }
     
