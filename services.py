@@ -158,6 +158,8 @@ def template_message(number: str, template_name: str) -> str:
     str: A JSON string representing the WhatsApp template message.
     """
     logging.info('PUTTING TOGETHER TEMPLATE MESSAGE...')
+    logging.info('NUMBER >>> {}'.format(number))
+    logging.info('TEMPLATE NAME >>> {}'.format(template_name))
     # Create a dictionary with the WhatsApp template details
     data_dict = {
         "messaging_product": "whatsapp",
