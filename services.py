@@ -163,7 +163,7 @@ def template_message(number: str, template_name: str) -> str:
     # Create a dictionary with the WhatsApp template details
     data_dict = {
         "messaging_product": "whatsapp",
-        # "recipient_type": "individual",
+        "recipient_type": "individual",
         "to": number,
         "type": "template",
         "template": {
@@ -592,7 +592,7 @@ def follow_up(number: str, messageId: str) -> str:
     """
     # Define the body, footer, and options of the message
     body = "Your radiance was truly captivating! As the curtain rises on the next chapter of your style journey, can I assist in crafting your upcoming show-stopping look? 🌟🎭✨"
-    footer = "AIySha by roboMUA"
+    footer = "Aiysha from yShade"
     options = ["✅ Yes, please.", "❌ No, thanks."]
 
     # Create a button reply message
@@ -1182,7 +1182,7 @@ def fetch_product_recs(
 
         # Define the body, footer, and options of the message
         body = "I’m delighted to hear of your interest in exploring options tailored to your skin tone. To provide you with the most suitable recommendations, could you please select one of the following esteemed brands? Each offers a range of products designed to complement and enhance your unique beauty. 🌟"
-        footer = "AIySha by roboMUA"
+        footer = "Aiysha from yShade"
         options = [name.title() for name in company_names]
 
         # Create a list reply message
@@ -1291,7 +1291,7 @@ def handle_greetings(
     logging.info('ENTERED GREETINGS FUNCTION...')
     # Define the body, footer, and options of the message
     body = "Hello, there! I’m AIySha, your dedicated beauty ally. My mission is to elevate your beauty routine and ensure you feel extraordinary. How may I enhance your allure today? ✨"
-    footer = "AIySha by roboMUA"
+    footer = "Aiysha from yShade"
     options = ["💄 Product Recs", "🪞 Try-On"]
 
     # Create a button reply message
@@ -1368,7 +1368,7 @@ def handle_product_recs(
     """
     # Define the body, footer, and options of the message
     body = "How thrilling to embrace your adventurous spirit! Let’s channel that energy into creating a stunning visage that reflects your inner creativity. I’m here to guide you every step of the way. Tell me, what vision do you have for your transformative look today? 🎨✨"
-    footer = "AIySha by roboMUA"
+    footer = "Aiysha from yShade"
     options = ["😀 Face", "☺️ Cheeks", "👤 Body"]
 
     # Create a list reply message
@@ -1400,7 +1400,7 @@ def handle_face(
     """
     # Define the body, footer, and options of the message
     body = "Indeed, true beauty resonates from within, yet there’s always room to highlight your natural allure with the right products. Allow me to assist you in selecting the perfect items to accentuate your complexion. Could you share which feature of your face you’d like to enhance first? 🌟"
-    footer = "AIySha by roboMUA"
+    footer = "Aiysha from yShade"
     options = ["🎨 Foundation", "🙈 Concealer", "💎 Setting Powder"]  # "🌟 Skin Tint",
 
     # Create a list reply message
@@ -1435,7 +1435,7 @@ def handle_cheeks(
     body = "Your desire for glamour shines through, and rest assured, I’m here to support your vision. Whether you’re leaning towards a subtle, natural elegance or aiming for the dramatic flair of a diva, I’m at your service. What are your aspirations for today’s look? ✨"
 
     # Define the footer of the message
-    footer = "AIySha by roboMUA"
+    footer = "Aiysha from yShade"
 
     # Define the options for the user
     options = ["😊 Contour", "🥉 Bronzer"]
@@ -1472,7 +1472,7 @@ def handle_body(
     body = "Ah, the beauty sovereign graces us with her presence! Are you prepared to enchant the world with your splendid visage? Share with me, what sort of enchantment shall we conjure up for your look today? ✨"
 
     # Define the footer of the message
-    footer = "AIySha by roboMUA"
+    footer = "Aiysha from yShade"
 
     # Define the options for the user
     options = ["🩱 Shapewear", "🥿 Nude Shoes"]
@@ -1539,7 +1539,7 @@ def handle_vto(
     """
     # Define the body, footer, and options of the message
     body = "Fantastic! We’re about to embark on a transformative journey with a touch of digital enchantment. Tell me, what ambiance are you aiming to capture with your new look? 🌟✨"
-    footer = "AIySha by roboMUA"
+    footer = "Aiysha from yShade"
     options = ["🪮 Hair", "👄 Lips"]
 
     # Create a button reply message
@@ -1571,7 +1571,7 @@ def handle_hair(
     """
     # Define the body, footer, and options of the message
     body = "Marvelous choice! Elevating your look with a fresh hair color or style can be truly transformative. Are you envisioning a bold new shade to make a statement, or perhaps a chic cut to redefine your style? Share your inspiration, and let’s craft a look that’s uniquely you. 🌈✨"
-    footer = "AIySha by roboMUA"
+    footer = "Aiysha from yShade"
     options = ["💈 Color Try-On", "🎀 Style Try-On"]
 
     # Create a button reply message
@@ -1603,7 +1603,7 @@ def handle_lips(
     """
     # Define the body, footer, and options of the message
     body = "Absolutely, let’s revitalize your beauty routine! For lips that make a statement, are you feeling the boldness of a fiery red, or perhaps the understated elegance of a nude shade? Remember, a good lipliner is your ally—it ensures your lipstick stays precisely where it should. Ready to define your look? 💄✨"
-    footer = "AIySha by roboMUA"
+    footer = "Aiysha from yShade"
     options = ["💋 Lip Stick Try-On", "🫦 Lip Liner Try-On"]
 
     # Create a button reply message
@@ -1730,7 +1730,7 @@ def handle_yes_please(
     """
     # Define the body, footer, and options of the message
     body = "You’re truly in the spirit of transformation! With our virtual beauty wand at the ready, what new look or style would you like to bring to life? Let’s create some beauty magic together! 🪄✨"
-    footer = "AIySha by roboMUA"
+    footer = "Aiysha from yShade"
     options = ["💄 Product Recs", "🪞 Try-On"]
 
     # Create a button reply message
@@ -1895,7 +1895,7 @@ def handle_style_try_on(
 
     # Define the body, footer, and options of the message
     body = "Navigating to the hair salon, it’s time to redefine your look! Shall we go bold with a daring pixie cut, embrace the romance of flowing mermaid waves, or perhaps choose a hue that embodies ‘rockstar’ vibes? Together, we’ll craft an experience that elevates your hair to new heights of style! 💇‍♀️🎨🤘"
-    footer = "AIySha by roboMUA"
+    footer = "Aiysha from yShade"
     options = [name.title() for name in feats[text].keys()]
 
     # Create a list reply message
@@ -1968,7 +1968,7 @@ def handle_plus_color_options(
 
     # Define the body, footer, and options of the message
     body = "Envision yourself in a boutique of beauty, surrounded by the finest brands, each offering a delightful selection to satisfy your style cravings. Which one captures your heart and transports you to a realm of fashion enchantment? 🍭👗✨"
-    footer = "AIySha by roboMUA"
+    footer = "Aiysha from yShade"
     options = [name.title() for name in feats[text].keys()]
 
     # Create a list reply message
@@ -2010,7 +2010,7 @@ def handle_vto_options(
 
     # Define the body, footer, and options of the message
     body = "Selecting the perfect shade is akin to donning a superhero’s cape—each color holds its own power and story. So, which hue will be your superpower today? Will it be a bold, confident red or perhaps a mysterious, deep blue? Let’s find the color that makes you feel invincible! 🦸‍♂️🌈"
-    footer = "AIySha by roboMUA"
+    footer = "Aiysha from yShade"
     options = [key.title() for key in feats[last_vto_type[number][0]][text].keys()]
 
     # Create a list reply message
